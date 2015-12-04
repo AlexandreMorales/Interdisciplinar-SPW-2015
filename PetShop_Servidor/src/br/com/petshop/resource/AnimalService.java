@@ -33,41 +33,29 @@ public class AnimalService {
 		@Path("/{id}")
 		@Produces("application/json")
 		public Animal trazerAnimal(@PathParam("id") int id) {
-			List<Animal> animais = trazerAnimais();
-			for (Animal animal : animais) {
-				if (animal.getId() == id) {
-					return animal;
-				}
-			}
-			return null;
+			return AnimalDao.getById(id);
 		}
 
 		@POST
-		@Consumes(MediaType.APPLICATION_JSON)
-		public Response criarAnimal(String data) {
+		@Consumes("application/json")
+		public Response criarAnimal(Animal animal) {
 			try {
-				Animal animal = new Animal();
-				animal = new Gson().fromJson(data, Animal.class);
-
-				if (animal == null)
-					throw new Exception();
-				
 				AnimalDao.saveAnimal(animal);
 			} catch (Exception e) {
 				String result = "Error: " + e.getMessage();
 				return Response.status(500).entity(result).build();
 			}
 
-			String result = "Animal Criado : ";
+			String result = "Animal Criado : " + animal.getNomeAdotivo();
 			return Response.status(200).entity(result).build();
 			
 		}
 		
 		@DELETE
 		@Path("/{id}")
-		@Consumes("application/json")
-		public Response deletarAnimal(Animal animal) {
-			try {
+		public Response deletarAnimal(@PathParam("id") int id) {
+			Animal animal = AnimalDao.getById(id);
+			try {				
 				AnimalDao.deleteAnimal(animal);
 			} catch (Exception e) {
 				String result = "Error: " + e.getMessage();

@@ -30,6 +30,24 @@ public class AnimalDao {
 		}
 	}
 	
+	public static Animal getById(int id){
+		Animal result = null;
+		try {
+		
+		session = HibernateUtil.getSessionFactory().openSession();
+		  
+        session.beginTransaction();
+
+        result =  (Animal) session.get(Animal.class, id);
+        
+        session.getTransaction().commit();
+        
+		}catch(Exception e){
+			System.err.println(e.getMessage());		
+		}
+		return result;
+	}
+
 	@SuppressWarnings("unchecked")
 	public static List<Animal> getAnimais(){
 		
