@@ -1,0 +1,85 @@
+<script src="/PetShop_Cliente/js/Xandelier.js"></script>
+<script>
+var animais; 
+	window.onload = function() {						
+		var container = document.documentElement.innerHTML;
+		window.rooturl = "/PetShop_Cliente/";
+		AjaxPuro({
+			_path : "view/Home/home.html",
+			_done : function(data) {
+				document.documentElement.innerHTML = data;
+				document.title = "Visualizar Animal";
+				getElement("#container").innerHTML = container;
+				criaTable();
+			},
+			_error : function(request, textStatus, error) {
+				var err = textStatus + ", " + error;
+				console.log("Request Failed: " + err);
+			}
+		});
+		window.rooturl = "/PetShop_Servidor/";
+	}
+	
+	function criaTable(){
+		AjaxPuro({
+			_path : "animais/todos",
+			_done : function(data) {
+				animais = data;
+				data.forEach(a => 
+				getElement("#tableAnimal:tbody")[0].append(document.createElement("tr")
+						.append(document.createElement("td").config({innerHTML: a.codigo}))
+						.append(document.createElement("td").config({innerHTML: a.nomeAdotivo}))
+						.append(document.createElement("td").config({innerHTML: a.tipo}))
+						.append(document.createElement("td").config({innerHTML: a.genero}))
+						.append(document.createElement("td").config({innerHTML: a.idade}))
+						.append(document.createElement("td").config({innerHTML: a.raca}))
+						.append(document.createElement("td").config({innerHTML: a.disponivel ? "Disponível" : "Não Disponível"}))
+						.append(document.createElement("td").config({
+							innerHTML: "<a class='btn btn-default' href='detalhe.html?"+a.id+"'>Detalhes</a> "+ 
+								       "<button class='btn btn-default' onclick='apagarAnimal("+a.id+")'>Apagar</button>"
+							}))));
+			},
+			_error : function(request, textStatus, error) {
+				var err = textStatus + ", " + error;
+				console.log("Request Failed: " + err);
+			}
+		});
+	};
+	
+	function apagarAnimal(id){
+		var animal = animais.filter(a => a.id == id)[0];
+		var confirma = confirm("Deseja apagar o "+animal.tipo+" "+animal.nomeAdotivo+"?");
+		if(confirma){
+			AjaxPuro({
+			    _type: "DELETE",
+			    _path: "animais",
+			    _arguments: id,
+			    _done: function (data) {
+			        alert(data);
+			        location.reload();
+			    },
+			    _error: function (request, textStatus, error) {
+			        var err = textStatus + ", " + error;
+			        console.log("Request Failed: " + err);
+			    }
+			});
+		}
+	};
+</script>
+
+<table class="table" id="tableAnimal">
+	<thead>
+		<tr>
+			<th>Código</th>
+			<th>Nome Adotivo</th>
+			<th>Tipo</th>
+			<th>Gênero</th>
+			<th>Idade</th>
+			<th>Raça</th>
+			<th>Disponibilidade</th>
+			<th>Ações</th>
+		</tr>
+	</thead>
+	<tbody>
+	</tbody>
+</table>

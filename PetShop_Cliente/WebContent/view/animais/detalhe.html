@@ -9,7 +9,8 @@ window.onload = function(){
 	    	document.documentElement.innerHTML = data;
 	    	document.title = "Cadastrar novo Animal";
 	    	getElement("#container").innerHTML = container;
-	    	getElement("#Enviar").addEventListener("click", Cadastrar);
+	    	
+	    	carregaAnimal(window.location.search.substring(1));
 	    },
 	    _error: function (request, textStatus, error) {
 	        var err = textStatus + ", " + error;
@@ -18,6 +19,26 @@ window.onload = function(){
 	});
 	window.rooturl = "/PetShop_Servidor/";
 }
+
+function carregaAnimal(id){
+	AjaxPuro({
+		_path : "animais",
+		_arguments : id,
+		_done : function(data) {
+			getElement(".animalAtt").forEach(function(el){
+				if(el.type === "checkbox")
+					el.checked = data[el.id];
+				else
+					el.value = data[el.id];
+				el.toggleAttribute("disabled", "disabled");
+			});
+		},
+		_error : function(request, textStatus, error) {
+			var err = textStatus + ", " + error;
+			console.log("Request Failed: " + err);
+		}
+	});
+};
 </script>
 
 <div class="form-horizontal">
@@ -38,8 +59,8 @@ window.onload = function(){
 		<label class="control-label col-lg-3" for="tipo"> Tipo: </label>
 		<div class="col-lg-5">
 			<select id="tipo" class="form-control animalAtt">
-				<option value="0">Cachorro</option>
-				<option value="1">Gato</option>
+				<option value="Cachorro">Cachorro</option>
+				<option value="Gato">Gato</option>
 			</select>
 		</div>
 	</div>
@@ -47,8 +68,8 @@ window.onload = function(){
 		<label class="control-label col-lg-3" for="genero"> Gênero: </label>
 		<div class="col-lg-5">
 			<select id="genero" class="form-control animalAtt">
-				<option value="0">Macho</option>
-				<option value="1">Femea</option>
+				<option value="Macho">Macho</option>
+				<option value="Femea">Femea</option>
 			</select>
 		</div>
 	</div>
@@ -72,35 +93,4 @@ window.onload = function(){
 				style="margin-left: 0px;" />
 		</div>
 	</div>
-	<div class="form-group">
-		<div class="col-lg-3"></div>
-		<div class="col-lg-5">
-			<button class="btn btn-default btn-lg btn-block btn-primary"
-				id="Enviar">Enviar</button>
-		</div>
-	</div>
 </div>
-
-<script>
-function Cadastrar() {
-		if (!getElement(".animalAtt").some(d => d.value==="")) {
-			var animal = {};
-			getElement(".animalAtt").forEach(function(el){
-				animal[el.id] = (el.type === "checkbox") ? el.checked : 
-					(el.type === "number" || el.tagName === "SELECT") ? parseFloat(el.value) : el.value;
-			});
-			AjaxPuro({
-			    _type: "POST",
-			    _path: "animais",
-			    _arguments: JSON.stringify(animal),
-			    _done: function (data) {
-			        alert(data);
-			    },
-			    _error: function (request, textStatus, error) {
-			        var err = textStatus + ", " + error;
-			        console.log("Request Failed: " + err);
-			    }
-			});
-		} else alert("Preencha todos os campos para cadastrar");
-	};
-</script>
