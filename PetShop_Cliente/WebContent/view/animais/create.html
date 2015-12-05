@@ -95,6 +95,7 @@ function Cadastrar() {
 			    _arguments: JSON.stringify(animal),
 			    _done: function (data) {
 			        alert(data);
+			        window.location.href = "home.html";
 			    },
 			    _error: function (request, textStatus, error) {
 			        var err = textStatus + ", " + error;
