@@ -40,7 +40,7 @@ function show(div, value, delay) {
 // }
 // });
 var AjaxPuro = function (obAjax) {
-    var path = "/PetShop_Servidor/" + obAjax._path, POST = obAjax._type === "POST", _arguments;
+    var path = window.rooturl + obAjax._path, POST = obAjax._type === "POST", _arguments;
 
     if (obAjax._arguments) {
     	if(getType(obAjax._arguments) === 'object'){

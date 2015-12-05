@@ -1,0 +1,35 @@
+<script src="/PetShop_Cliente/js/Xandelier.js"></script>
+<script>
+window.onload = function(){
+	var container = document.documentElement.innerHTML;
+	window.rooturl = "/PetShop_Cliente/";
+	AjaxPuro({
+	    _path: "view/Home/home.html",
+	    _done: function (data) {
+	    	document.documentElement.innerHTML = data;
+	    	document.title = "Home Animal";
+	    	getElement("#container").innerHTML = container;
+	    },
+	    _error: function (request, textStatus, error) {
+	        var err = textStatus + ", " + error;
+	        console.log("Request Failed: " + err);
+	    }		
+	});
+	window.rooturl = "/PetShop_Servidor/";
+}
+</script>
+
+<div class="form-horizontal">
+	<div class="form-group">
+		<div class="col-lg-5">
+			<a class="btn btn-default btn-lg btn-block btn-primary"
+				 href="create.html">Cadastrar novo Animal</a>
+		</div>
+	</div>
+	<div class="form-group">
+		<div class="col-lg-5">
+			<a class="btn btn-default btn-lg btn-block btn-primary"
+				 href="visualizar.html">Visualizar Animais</a>
+		</div>
+	</div>
+</div>
