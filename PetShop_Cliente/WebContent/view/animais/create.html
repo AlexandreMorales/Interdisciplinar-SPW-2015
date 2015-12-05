@@ -3,8 +3,6 @@
 <head>
 <meta charset="ISO-8859-1" />
 <title>Cadastrar Novo Animal</title>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-<script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
 <link rel="shortcut icon" type="image/ico"
 	href="/PetShop_Cliente/images/favicon.ico" />
 <link rel="stylesheet"
@@ -57,8 +55,8 @@
 				<label class="control-label col-lg-3" for="tipo"> Tipo: </label>
 				<div class="col-lg-5">
 					<select id="tipo" class="form-control animalAtt">
-						<option value="Cachorro">Cachorro</option>
-						<option value="Gato">Gato</option>
+						<option value="0">Cachorro</option>
+						<option value="1">Gato</option>
 					</select>
 				</div>
 			</div>
@@ -67,8 +65,8 @@
 				</label>
 				<div class="col-lg-5">
 					<select id="genero" class="form-control animalAtt">
-						<option value="Macho">Macho</option>
-						<option value="Femea">Femea</option>
+						<option value="0">Macho</option>
+						<option value="1">Femea</option>
 					</select>
 				</div>
 			</div>
@@ -109,23 +107,22 @@
 		if (!getElement(".animalAtt").some(d => d.value==="")) {
 			var animal = {};
 			getElement(".animalAtt").forEach(function(el){
-				animal[el.id] = (el.type === "checkbox") ? el.checked : el.value;
+				animal[el.id] = (el.type === "checkbox") ? el.checked : 
+					(el.type === "number" || el.tagName === "SELECT") ? parseFloat(el.value) : el.value;
 			});
-			$.ajax({
-				  url: "http://localhost:8080/PetShop_Servidor/animais",
-				  data:JSON.stringify(animal),
-				  type: "POST", 
-				    dataType : "json",
-				    contentType: "application/json; charset=utf-8",
-				  success: function (data) {
-					        console.log(data);
-					        alert("Animal salvo com sucesso");
-					    },
-					    error: function (request, textStatus, error) {
-					        var err = textStatus + ", " + error;
-					        console.log("Request Failed: " + err);
-					    }
-					});
+			AjaxPuro({
+			    _type: "POST",
+			    _path: "animais",
+			    _arguments: JSON.stringify(animal),
+			    _done: function (data) {
+			        console.log(data);
+			        alert("Animal salvo com sucesso");
+			    },
+			    _error: function (request, textStatus, error) {
+			        var err = textStatus + ", " + error;
+			        console.log("Request Failed: " + err);
+			    }
+			});
 		} else alert("Preencha todos os campos para cadastrar");
 	});
 </script>

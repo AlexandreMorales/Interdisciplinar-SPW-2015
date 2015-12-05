@@ -11,14 +11,12 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
-enum TipoAnimal{
-	Cachorro,
-	Gato
+enum TipoAnimal {
+	Cachorro, Gato
 }
 
-enum GeneroAnimal{
-	Macho,
-	Femea
+enum GeneroAnimal {
+	Macho, Femea
 }
 
 @Entity
@@ -34,13 +32,13 @@ public class Animal {
 	private int idade;
 	private String raca;
 	private boolean disponivel;
-	
+
 	public Animal() {
 		super();
 	}
 
-	public Animal(String codigo, String nomeAdotivo, TipoAnimal tipo,
-			GeneroAnimal genero, int idade, String raca, boolean disponivel) {
+	public Animal(String codigo, String nomeAdotivo, TipoAnimal tipo, GeneroAnimal genero, int idade, String raca,
+			boolean disponivel) {
 		super();
 		this.codigo = codigo;
 		this.nomeAdotivo = nomeAdotivo;
@@ -114,8 +112,4 @@ public class Animal {
 	public void setDisponivel(boolean disponivel) {
 		this.disponivel = disponivel;
 	}
-
-
-	
-	
 }

@@ -1,7 +1,7 @@
 "use strict";
 var delayShowBool = true;
 var valueShowBool = true;
-//Mostra ou esconde divs
+// Mostra ou esconde divs
 function show(div, value, delay) {
     delayShowBool = true;
     valueShowBool = value;
@@ -26,25 +26,25 @@ function show(div, value, delay) {
     }
 };
 
-//AJAX SEM JQUERY
-//AjaxPuro({
-//    _type: "POST",
-//    _path: "Municipios/GetMunicipiosEstado",
-//    _arguments: { siglaEstado: "BA" },
-//    _done: function (data) {
-//        console.log(data);
-//    },
-//    _error: function (request, textStatus, error) {
-//        var err = textStatus + ", " + error;
-//        console.log("Request Failed: " + err);
-//    }
-//});
+// AJAX SEM JQUERY
+// AjaxPuro({
+// _type: "POST",
+// _path: "Municipios/GetMunicipiosEstado",
+// _arguments: { siglaEstado: "BA" },
+// _done: function (data) {
+// console.log(data);
+// },
+// _error: function (request, textStatus, error) {
+// var err = textStatus + ", " + error;
+// console.log("Request Failed: " + err);
+// }
+// });
 var AjaxPuro = function (obAjax) {
     var path = "/PetShop_Servidor/" + obAjax._path, POST = obAjax._type === "POST", _arguments;
 
     if (obAjax._arguments) {
-        var obj = obAjax._arguments;
-        obAjax._arguments = Object.keys(obj)
+    	if(getType(obAjax._arguments) === 'object'){
+        obAjax._arguments = Object.keys(obAjax._arguments)
         .reduce(function (args, attr) {
             args += (getType(obj[attr]) === "array") ?
                 obj[attr].reduce(function (indices, el) { indices += attr + "=" + el + "&"; return indices; }, "") :
@@ -53,7 +53,9 @@ var AjaxPuro = function (obAjax) {
         }, (!POST) ? "?" : "");
 
         _arguments = obAjax._arguments.substr(0, obAjax._arguments.length - 1);
-
+    	}else
+    		_arguments = ((!POST) ? "/" : "") + obAjax._arguments;
+    	
         if (!POST)
             path += _arguments;
     }
@@ -81,24 +83,25 @@ var AjaxPuro = function (obAjax) {
         if (obAjax._error != undefined)
             obAjax._error(xhttp, xhttp.status, xhttp.responseText);
     }
-
-    xhttp.open(obAjax._type || "GET", path, true);
+    
+    xhttp.open(obAjax._type || "GET", path);
     if (POST) {
-        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp.setRequestHeader("Data-type", "json");
+        xhttp.setRequestHeader("Content-type", "application/json; charset=utf-8");
         xhttp.send(_arguments);
     } else {
         xhttp.send();
     }
 };
 
-//Pega o tipo do objeto mandado
+// Pega o tipo do objeto mandado
 var getType = (obj) => ({}).toString.call(obj).match(/\s([a-zA-Z]+)/)[1].toLowerCase();
 
-//Transforma a coleção de elementos em um array de elementos
+// Transforma a coleção de elementos em um array de elementos
 HTMLCollection.prototype.toArray = function () { return Array.prototype.slice.call(this); };
 NodeList.prototype.toArray = function () { return Array.prototype.slice.call(this); };
 
-//Traz um array de elementos únicos
+// Traz um array de elementos únicos
 Array.prototype.unique = function (fun, map) {
     fun = fun || (c => c);
     var arrayUnique = [this[0]], arrayUniqueAtt = [fun(this[0])];
@@ -130,7 +133,7 @@ Element.prototype.toggleAttribute = function (att, content) {
     return this;
 };
 
-//Configura o elemento de acordo com o objeto mandado
+// Configura o elemento de acordo com o objeto mandado
 Element.prototype.config = function (content) {
     var element = this;
     Object.keys(content).forEach(function (att) {
@@ -152,16 +155,16 @@ Element.prototype.config = function (content) {
     return element;
 };
 
-//APPEND SEM JQUERY
+// APPEND SEM JQUERY
 Element.prototype.append = function (element) {
     this.appendChild(element);
     return this;
 };
 
-//Pega o attributo do DOM
+// Pega o attributo do DOM
 Element.prototype.getDOMAttribute = function (element) { return this[element]; };
 
-//Esvazia o Elemento
+// Esvazia o Elemento
 Element.prototype.empty = function () {
     while (this.firstChild) {
         this.removeChild(this.firstChild);
@@ -169,14 +172,14 @@ Element.prototype.empty = function () {
     return this;
 };
 
-//Pega os elementos de acordo com o seletor enviado
+// Pega os elementos de acordo com o seletor enviado
 Element.prototype.getElement = function (selector) {
     return getElement(selector, this);
 };
 
-//Pega os elementos de acordo com o seletor enviado
+// Pega os elementos de acordo com o seletor enviado
 function getElement(selector, element, include) {
-    //console.log(selector);
+    // console.log(selector);
     if (!selector.length) return element;
     element = element || document;
     var auxFunc, auxFilter, operatorAux = "", funcGetAtt = "",
@@ -227,10 +230,10 @@ function getElement(selector, element, include) {
             (getType(element) === "array") ? element.reduce((aux, el) => aux.concat(auxFunc(el)), []) : auxFunc(element));
 };
 
-//GERENCIA PORCENTAGEM DO BOOTSTRAP
+// GERENCIA PORCENTAGEM DO BOOTSTRAP
 var renderizaPorcentagem = (idProcess, value) =>  getElement("#" + idProcess).config({ Swidth: value + "%", innerHTML: Math.round(value) + "%", "aria-valuenow": value });
 
-//PROCESSAMENTO DE ARRAY
+// PROCESSAMENTO DE ARRAY
 function processArray(obj) {
     setTimeout(function () {
         renderizaPorcentagem(obj._percent, 100 - ((obj._todo.length * 100) / obj._length));
@@ -243,23 +246,23 @@ function processArray(obj) {
     });
 };
 
-//Retorna a diferença entre dois arrays.
+// Retorna a diferença entre dois arrays.
 function diferencaArrays(array1, array2) {
     var menor, maior = array1.length > array2.length ? (menor = array2, array1) : (menor = array1, array2);
     return maior.filter(key => menor.indexOf(key) === -1);
 };
 
-//Pega o id do radio button selecionado de um grupo
+// Pega o id do radio button selecionado de um grupo
 var getCheckedRadioId = name => getElement(name).filter(x => x.checked)[0].id;
 
-//Pega todos os ids dos radio buttons selecionados de uma div
+// Pega todos os ids dos radio buttons selecionados de uma div
 var getAllCheckedRadioId = div => getElement("#" + div + ":input").reduce(function (array, element) {
     if (element.checked)
         array.push(element.id);
     return array;
 }, []);
 
-//Embaralha array
+// Embaralha array
 function shuffle(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
 
@@ -279,7 +282,8 @@ function shuffle(array) {
     return array;
 };
 
-//Retorna lista com itens contidos na lista recebida de acordo com a string recebida.
+// Retorna lista com itens contidos na lista recebida de acordo com a string
+// recebida.
 var search = (selection, str, att) => selection.filter((d) => d[att].toUpperCase().replace(str.toUpperCase(), "") != d[att].toUpperCase());
 
 var cutHex = h => (h.charAt(0) == "#") ? h.substring(1, 7) : h;
@@ -287,7 +291,7 @@ var HexToR = h => parseInt((cutHex(h)).substring(0, 2), 16);
 var HexToG = h => parseInt((cutHex(h)).substring(2, 4), 16);
 var HexToB = h => parseInt((cutHex(h)).substring(4, 6), 16);
 
-//Pega o browser atual
+// Pega o browser atual
 function getBrowser() {
     if (window.opera || navigator.userAgent.indexOf(' OPR/') >= 0)
         // Opera 8.0+ (UA detection to detect Blink/v8-powered Opera)
@@ -369,20 +373,21 @@ PersonalizeTitle.showTitle = function (text) {
 
 // REMOVE ACENTOS
 /*
-   Copyright 2015 rdllopes http://stackoverflow.com/users/1879686/rdllopes from http://stackoverflow.com/questions/990904/javascript-remove-accents-diacritics-in-strings
-
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-   http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
-*/
+ * Copyright 2015 rdllopes http://stackoverflow.com/users/1879686/rdllopes from
+ * http://stackoverflow.com/questions/990904/javascript-remove-accents-diacritics-in-strings
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
 var defaultDiacriticsRemovalap = [
     { 'base': 'A', 'letters': '\u0041\u24B6\uFF21\u00C0\u00C1\u00C2\u1EA6\u1EA4\u1EAA\u1EA8\u00C3\u0100\u0102\u1EB0\u1EAE\u1EB4\u1EB2\u0226\u01E0\u00C4\u01DE\u1EA2\u00C5\u01FA\u01CD\u0200\u0202\u1EA0\u1EAC\u1EB6\u1E00\u0104\u023A\u2C6F' },
     { 'base': 'AA', 'letters': '\uA732' },
