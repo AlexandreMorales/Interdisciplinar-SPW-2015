@@ -2,4 +2,10 @@
 .recommenders
 PetShop_Cliente/.classpath
 PetShop_Servidor/.classpath
+PetShop_Cliente/.project
+PetShop_Servidor/.project
+PetShop_Cliente/.settings/
+PetShop_Servidor/.settings/
+PetShop_Cliente/target/
+PetShop_Servidor/target/
 RemoteSystemsTempFiles
