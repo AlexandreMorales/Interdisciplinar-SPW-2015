@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 enum TipoAnimal {
@@ -32,13 +33,16 @@ public class Animal {
 	private int idade;
 	private String raca;
 	private boolean disponivel;
+	@ManyToOne
+    @JoinColumn(name="instituicao_id")
+	private Instituicao instituicao;
 
 	public Animal() {
 		super();
 	}
 
 	public Animal(String codigo, String nomeAdotivo, TipoAnimal tipo, GeneroAnimal genero, int idade, String raca,
-			boolean disponivel) {
+			boolean disponivel, Instituicao instituicao) {
 		super();
 		this.codigo = codigo;
 		this.nomeAdotivo = nomeAdotivo;
@@ -47,6 +51,7 @@ public class Animal {
 		this.idade = idade;
 		this.raca = raca;
 		this.disponivel = disponivel;
+		this.instituicao = instituicao;
 	}
 
 	public int getId() {
@@ -112,4 +117,13 @@ public class Animal {
 	public void setDisponivel(boolean disponivel) {
 		this.disponivel = disponivel;
 	}
+
+	public Instituicao getInstituicao() {
+		return instituicao;
+	}
+
+	public void setInstituicao(Instituicao instituicao) {
+		this.instituicao = instituicao;
+	}	
+	
 }

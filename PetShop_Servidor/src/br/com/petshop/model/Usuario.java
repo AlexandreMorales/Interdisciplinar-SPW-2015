@@ -7,6 +7,10 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+enum PerfilAcesso {
+	Pessoa, Instituicao
+}
+
 @Entity
 @Table
 public class Usuario {
@@ -15,17 +19,17 @@ public class Usuario {
 	private int id;
 	private String Email;
 	private String Senha;
-	private String PerfilAcesso;
-	@OneToOne
-	private Pessoa pessoa;
-	public Usuario(int id, String email, String senha, String perfilAcesso,
-			Pessoa pessoa) {
+	private PerfilAcesso PerfilAcesso;
+	
+	public Usuario() {
 		super();
-		this.id = id;
+	}
+	
+	public Usuario(String email, String senha, PerfilAcesso perfilAcesso) {
+		super();
 		Email = email;
 		Senha = senha;
 		PerfilAcesso = perfilAcesso;
-		this.pessoa = pessoa;
 	}
 	public int getId() {
 		return id;
@@ -45,19 +49,12 @@ public class Usuario {
 	public void setSenha(String senha) {
 		Senha = senha;
 	}
-	public String getPerfilAcesso() {
+	public PerfilAcesso getPerfilAcesso() {
 		return PerfilAcesso;
 	}
-	public void setPerfilAcesso(String perfilAcesso) {
+	public void setPerfilAcesso(PerfilAcesso perfilAcesso) {
 		PerfilAcesso = perfilAcesso;
-	}
-	public Pessoa getPessoa() {
-		return pessoa;
-	}
-	public void setPessoa(Pessoa pessoa) {
-		this.pessoa = pessoa;
-	}
-		
+	}	
 	
 		
 }

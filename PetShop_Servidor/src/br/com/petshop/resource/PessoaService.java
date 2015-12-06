@@ -38,15 +38,15 @@ public class PessoaService {
 
 		@POST
 		@Consumes("application/json")
-		public Response criarPessoa(Pessoa Pessoa) {
+		public Response criarPessoa(Pessoa pessoa) {
 			try {
-				PessoaDao.savePessoa(Pessoa);
+				PessoaDao.savePessoa(pessoa);
 			} catch (Exception e) {
 				String result = "Error: " + e.getMessage();
 				return Response.status(500).entity(result).build();
 			}
 
-			String result = "Pessoa Criada : " + Pessoa.getNomeSocial();
+			String result = "Pessoa Criada : " + pessoa.getNomeSocial();
 			return Response.status(200).entity(result).build();
 			
 		}

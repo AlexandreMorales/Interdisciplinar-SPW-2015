@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 enum TipoInstituicao{
@@ -24,9 +25,18 @@ public class Instituicao {
 	private String Telefone;
 	private String Email;
 	private TipoInstituicao Tipo;
+	@OneToOne
+	private Usuario usuario;
 	
-	public Instituicao(String nome, String codigo, String cNPJ, String endereco, String telefone, String email,
-			TipoInstituicao tipo) {
+	public Instituicao() {
+		super();
+	}
+	
+	public Instituicao(int id, String nome, String codigo, String cNPJ,
+			String endereco, String telefone, String email,
+			TipoInstituicao tipo, Usuario usuario) {
+		super();
+		this.id = id;
 		Nome = nome;
 		Codigo = codigo;
 		CNPJ = cNPJ;
@@ -34,16 +44,14 @@ public class Instituicao {
 		Telefone = telefone;
 		Email = email;
 		Tipo = tipo;
+		this.usuario = usuario;
 	}
-	
 	public int getId() {
 		return id;
 	}
-
-	public void setId(int idA) {
+	public void setId(int id) {
 		this.id = id;
 	}
-
 	public String getNome() {
 		return Nome;
 	}
@@ -86,4 +94,14 @@ public class Instituicao {
 	public void setTipo(TipoInstituicao tipo) {
 		Tipo = tipo;
 	}
+	public Usuario getUsuario() {
+		return usuario;
+	}
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+	
+	
+	
+	
 }

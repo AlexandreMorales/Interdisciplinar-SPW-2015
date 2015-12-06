@@ -1,0 +1,85 @@
+<script src="/PetShop_Cliente/js/Xandelier.js"></script>
+<script>
+window.onload = function(){
+	var container = document.documentElement.innerHTML;
+	window.rooturl = "/PetShop_Cliente/";
+	AjaxPuro({
+	    _path: "view/Home/home.html",
+	    _done: function (data) {
+	    	document.documentElement.innerHTML = data;
+	    	document.title = "Cadastrar novo Usuário";
+	    	getElement("#container").innerHTML = container;
+	    	getElement("#Enviar").addEventListener("click", Cadastrar);
+	    },
+	    _error: function (request, textStatus, error) {
+	        var err = textStatus + ", " + error;
+	        console.log("Request Failed: " + err);
+	    }		
+	});
+	window.rooturl = "/PetShop_Servidor/";
+}
+</script>
+
+<div class="form-horizontal">
+	<div class="form-group">
+		<label class="control-label col-lg-3" for="email"> Email: </label>
+		<div class="col-lg-5">
+			<input id="email" type="text" class="form-control usuarioAtt" />
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="control-label col-lg-3" for="senha"> Senha: </label>
+		<div class="col-lg-5">
+			<input id="senha" type="text" class="form-control usuarioAtt" />
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="control-label col-lg-3" for="PerfilAcesso"> Perfil de Acesso: </label>
+		<div class="col-lg-5">
+			<select id="perfilAcesso" class="form-control usuarioAtt">
+				<option value="0">Pessoa</option>
+				<option value="1">Instituição</option>
+			</select>
+		</div>
+	</div>
+	
+	<div id="render" class="container" style="margin-top: 100px;">
+	
+	<div class="form-group">
+		<div class="col-lg-3"></div>
+		<div class="col-lg-5">
+			<button class="btn btn-default btn-lg btn-block btn-primary"
+				id="Enviar">Enviar</button>
+		</div>
+	</div>
+</div>
+
+<script>
+function Cadastrar() {
+		if (!getElement(".usuarioAtt").some(d => d.value==="")) {
+			var usuario = {};
+			getElement(".usuarioAtt").forEach(function(el){
+				usuario[el.id] = (el.type === "checkbox") ? el.checked : 
+					(el.type === "number" || el.tagName === "SELECT") ? parseFloat(el.value) : el.value;
+			});
+			console.log(usuario);
+			AjaxPuro({
+			    _type: "POST",
+			    _path: "usuarios",
+			    _arguments: JSON.stringify(usuario),
+			    _done: function (data) {
+			    	if(usuario.perfilAcesso==0){
+			    		window.location.href = "pessoa.html?id="+data;
+			    	}else{
+			    		window.location.href = "instituicao.html?id="+data;
+			    	}
+			        
+			    },
+			    _error: function (request, textStatus, error) {
+			        var err = textStatus + ", " + error;
+			        console.log("Request Failed: " + err);
+			    }
+			});
+		} else alert("Preencha todos os campos para cadastrar");
+	};
+</script>

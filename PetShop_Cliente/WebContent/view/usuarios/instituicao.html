@@ -1,0 +1,109 @@
+<script src="/PetShop_Cliente/js/Xandelier.js"></script>
+<script>
+window.onload = function(){
+	
+	var container = document.documentElement.innerHTML;
+	window.rooturl = "/PetShop_Cliente/";
+	AjaxPuro({
+	    _path: "view/Home/home.html",
+	    _done: function (data) {
+	    	document.documentElement.innerHTML = data;
+	    	document.title = "Cadastrar nova Instituicao";
+	    	getElement("#container").innerHTML = container;
+	    	getElement("#Enviar").addEventListener("click", Cadastrar);
+	    },
+	    _error: function (request, textStatus, error) {
+	        var err = textStatus + ", " + error;
+	        console.log("Request Failed: " + err);
+	    }		
+	});
+	window.rooturl = "/PetShop_Servidor/";
+
+}
+</script>
+
+
+<div class="form-horizontal">
+	<div class="form-group">
+		<label class="control-label col-lg-3" for="codigo"> Codigo: </label>
+		<div class="col-lg-5">
+			<input id="codigo" type="text" class="form-control instituicaoAtt" />
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="control-label col-lg-3" for="nome"> Nome: </label>
+		<div class="col-lg-5">
+			<input id="nome" type="text" class="form-control instituicaoAtt" />
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="control-label col-lg-3" for="cnpj"> CNPJ: </label>
+		<div class="col-lg-5">
+			<input id="cnpj" type="text" class="form-control instituicaoAtt" />
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="control-label col-lg-3" for="endereco"> Endereco: </label>
+		<div class="col-lg-5">
+			<input id="endereco" type="text" class="form-control instituicaoAtt" />
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="control-label col-lg-3" for="telefone"> Telefone: </label>
+		<div class="col-lg-5">
+			<input id="telefone" type="text" class="form-control instituicaoAtt" />
+		</div>
+	</div>
+		<div class="form-group">
+		<label class="control-label col-lg-3" for="email"> Email: </label>
+		<div class="col-lg-5">
+			<input id="email" type="text" class="form-control instituicaoAtt" />
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="control-label col-lg-3" for="tipo"> Tipo: </label>
+		<div class="col-lg-5">
+			<select id="tipo" class="form-control instituicaoAtt">
+				<option value="0">Canil</option>
+				<option value="1">Gatil</option>
+				<option value="2">Ambos</option>
+			</select>
+		</div>
+	</div>	
+	<div class="form-group">
+		<div class="col-lg-3"></div>
+		<div class="col-lg-5">
+			<button class="btn btn-default btn-lg btn-block btn-primary"
+				id="Enviar">Enviar</button>
+		</div>
+	</div>
+</div>
+
+<script>
+function Cadastrar() {
+		if (!getElement(".instituicaoAtt").some(d => d.value==="")) {
+			var instituicao = {};
+			getElement(".instituicaoAtt").forEach(function(el){
+				instituicao[el.id] = (el.type === "checkbox") ? el.checked : 
+					(el.type === "number" || el.tagName === "SELECT") ? parseFloat(el.value) : el.value;
+			});
+			
+			
+			instituicao.usuario = { "id":location.search.split('id=')[1]};
+			
+			AjaxPuro({
+			    _type: "POST",
+			    _path: "instituicoes",
+			    _arguments: JSON.stringify(instituicao),
+			    _done: function (data) {
+			    	 alert(data);
+				     window.location.href = "home.html";
+			    },
+			    _error: function (request, textStatus, error) {
+			        var err = textStatus + ", " + error;
+			        console.log("Request Failed: " + err);
+			    }
+			});
+		} else alert("Preencha todos os campos para cadastrar");
+	};
+</script>

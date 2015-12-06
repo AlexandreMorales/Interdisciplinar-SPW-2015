@@ -1,0 +1,122 @@
+<script src="/PetShop_Cliente/js/Xandelier.js"></script>
+<script>
+window.onload = function(){
+	
+	var container = document.documentElement.innerHTML;
+	window.rooturl = "/PetShop_Cliente/";
+	AjaxPuro({
+	    _path: "view/Home/home.html",
+	    _done: function (data) {
+	    	document.documentElement.innerHTML = data;
+	    	document.title = "Cadastrar nova Pessoa";
+	    	getElement("#container").innerHTML = container;
+	    	getElement("#Enviar").addEventListener("click", Cadastrar);
+	    },
+	    _error: function (request, textStatus, error) {
+	        var err = textStatus + ", " + error;
+	        console.log("Request Failed: " + err);
+	    }		
+	});
+	window.rooturl = "/PetShop_Servidor/";
+
+}
+</script>
+
+
+<div class="form-horizontal">
+	<div class="form-group">
+		<label class="control-label col-lg-3" for="nomeSocial"> Nome Social: </label>
+		<div class="col-lg-5">
+			<input id="nomeSocial" type="text" class="form-control pessoaAtt" />
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="control-label col-lg-3" for="dataNascimento"> Data Nascimento: </label>
+		<div class="col-lg-5">
+			<input id="dataNascimento" type="date" class="form-control pessoaAtt" />
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="control-label col-lg-3" for="nomeParente1"> Nome Parente 1: </label>
+		<div class="col-lg-5">
+			<input id="nomeParente1" type="text" class="form-control pessoaAtt" />
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="control-label col-lg-3" for="nomeParente2"> Nome Parente 2: </label>
+		<div class="col-lg-5">
+			<input id="nomeParente2" type="text" class="form-control pessoaAtt" />
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="control-label col-lg-3" for="telefone"> Telefone: </label>
+		<div class="col-lg-5">
+			<input id="telefone" type="text" class="form-control pessoaAtt" />
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label class="control-label col-lg-3" for="genero"> Gênero: </label>
+		<div class="col-lg-5">
+			<select id="genero" class="form-control pessoaAtt">
+				<option value="0">Feminino</option>
+				<option value="1">Masculino</option>
+				<option value="2">Outro</option>
+			</select>
+		</div>
+	</div>	
+	<div class="form-group">
+		<label class="control-label col-lg-3" for="nomeConjuge"> Nome Conjuge: </label>
+		<div class="col-lg-5">
+			<input id="nomeConjuge" type="text" class="form-control pessoaAtt" />
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="control-label col-lg-3" for="religiao"> Religiao: </label>
+		<div class="col-lg-5">
+			<input id="religiao" type="text" class="form-control pessoaAtt" />
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="control-label col-lg-3" for="possuiDeficienciaFisica">
+			Possui Deficiencia Fisica: </label>
+		<div class="col-lg-5 checkbox">
+			<input id="possuiDeficienciaFisica" type="checkbox" class="animalAtt"
+				style="margin-left: 0px;" />
+		</div>
+	</div>
+	<div class="form-group">
+		<div class="col-lg-3"></div>
+		<div class="col-lg-5">
+			<button class="btn btn-default btn-lg btn-block btn-primary"
+				id="Enviar">Enviar</button>
+		</div>
+	</div>
+</div>
+
+<script>
+function Cadastrar() {
+		if (!getElement(".pessoaAtt").some(d => d.value==="")) {
+			var pessoa = {};
+			getElement(".pessoaAtt").forEach(function(el){
+				pessoa[el.id] = (el.type === "checkbox") ? el.checked : 
+					(el.type === "number" || el.tagName === "SELECT") ? parseFloat(el.value) : el.value;
+			});
+			pessoa.usuario = { "id":location.search.split('id=')[1]};
+			console.log(pessoa);
+			AjaxPuro({
+			    _type: "POST",
+			    _path: "pessoas",
+			    _arguments: JSON.stringify(pessoa),
+			    _done: function (data) {
+			    	 alert(data);
+				     window.location.href = "home.html";
+			    },
+			    _error: function (request, textStatus, error) {
+			        var err = textStatus + ", " + error;
+			        console.log("Request Failed: " + err);
+			    }
+			});
+		} else alert("Preencha todos os campos para cadastrar");
+	};
+</script>

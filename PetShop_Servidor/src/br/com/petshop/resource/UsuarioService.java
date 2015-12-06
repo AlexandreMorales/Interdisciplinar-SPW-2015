@@ -46,7 +46,7 @@ public class UsuarioService {
 				return Response.status(500).entity(result).build();
 			}
 
-			String result = "Usuario Criada : " + Usuario.getEmail();
+			int result = Usuario.getId();
 			return Response.status(200).entity(result).build();
 			
 		}
