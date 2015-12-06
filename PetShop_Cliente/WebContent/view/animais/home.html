@@ -5,10 +5,11 @@
 var animais; 
 getLayout(function(){
 	document.title = "Visualizar Animal";
-	var instituicao = (JSON.parse(getCookie("userCurrent")).perfilAcesso == "Instituicao");
+	var currentUser = JSON.parse(getCookie("userCurrent"));
+	var instituicao = currentUser ? currentUser.perfilAcesso == "Instituicao" : false;
 	AjaxPuro({
 		_path : "animais/"+(instituicao ? "instituicao" : "disponiveis"),
-		_arguments: instituicao ? JSON.parse(getCookie("userCurrent")).id : undefined,
+		_arguments: instituicao ? currentUser.id : undefined,
 		_done : function(data) {
 			animais = data;
 			data.forEach(a => 
