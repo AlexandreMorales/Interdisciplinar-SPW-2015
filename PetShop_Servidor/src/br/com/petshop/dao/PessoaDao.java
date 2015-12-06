@@ -6,8 +6,6 @@ import java.util.List;
 import org.hibernate.Session;
 
 import br.com.petshop.model.Pessoa;
-import br.com.petshop.model.Pessoa;
-import br.com.petshop.model.Usuario;
 import br.com.petshop.util.HibernateUtil;
 
 
