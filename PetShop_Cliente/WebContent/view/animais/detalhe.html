@@ -28,6 +28,10 @@
 			window.location.href = "../anuncios/create.html?id="+window.location.search.substring(1);
 			});
 		
+		getElement("#confirmarAdocao").addEventListener("click", function(){
+			window.location.href = "../adocoes/create.html?id="+window.location.search.substring(1);
+			});
+		
 	});
 </script>
 
@@ -81,6 +85,15 @@
 		<div class="col-lg-5 checkbox">
 			<input id="disponivel" type="checkbox" class="animalAtt"
 				style="margin-left: 0px;" />
+		</div>
+	</div>
+	
+	<div class="form-horizontal">
+		<div class="form-group">
+			<div class="col-lg-3"></div>
+			<div class="col-lg-5">
+				<button class="btn btn-default btn-lg btn-block btn-primary" id="confirmarAdocao">Confirmar Adoção</button>
+			</div>
 		</div>
 	</div>
 	

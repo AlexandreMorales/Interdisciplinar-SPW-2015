@@ -26,18 +26,18 @@ function deleteCookie(name) {
 }
 
 function gerenciaLogin() {
-	var currentUser = getCookie("userCurrent");
+	var currentUser = JSON.parse(getCookie("userCurrent"));
 	if (currentUser) {
 		show("li-cadastrar", false);
 		show("li-login", false);
+		show("li-animais", currentUser.perfilAcesso == "Instituicao");
 		getElement("#li-logout").addEventListener("click", logout);
-		show("cadastrarAnimal",
-				JSON.parse(currentUser).perfilAcesso == "Instituicao");
 	} else {
 		show("li-logout", false);
 		show("li-animais", false);
 		show("li-instituicoes", false);
 		show("li-usuarios", false);
+		show("li-anuncios", false);
 	}
 }
 

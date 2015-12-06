@@ -21,13 +21,19 @@
 		    	getElement("#animal").toggleAttribute("disabled", "disabled");
 		    	getElement("#instituicao").value = data.instituicao.nome;
 		    	getElement("#instituicao").toggleAttribute("disabled", "disabled");
-		    
+		    					
 			},
 			_error : function(request, textStatus, error) {
 				var err = textStatus + ", " + error;
 				console.log("Request Failed: " + err);
 			}
 		});
+		
+		if(getCookie("userCurrent"))
+			show("div-queroAdotar",(JSON.parse(getCookie("userCurrent")).perfilAcesso == "Pessoa"));
+		
+		getElement("#queroAdotar").addEventListener("click", function(){alert("Um Email foi enviado para a instituição "+ getElement("#instituicao").value + " registrando seu interesse")});
+
 	});
 </script>
 
@@ -50,6 +56,15 @@
 			<textarea id="descricao" type="text" class="form-control anuncioAtt"></textarea>
 		</div>
 	</div>
+	</div>
+	
+	<div id="div-queroAdotar" class="form-horizontal">
+		<div class="form-group">
+			<div class="col-lg-3"></div>
+			<div class="col-lg-5">
+				<button class="btn btn-default btn-lg btn-block btn-primary" id="queroAdotar">Quero Adotar</button>
+			</div>
+		</div>
 	</div>
 
 	<div class="form-horizontal">

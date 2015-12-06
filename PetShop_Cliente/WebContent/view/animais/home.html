@@ -7,37 +7,47 @@ getLayout(function(){
 	document.title = "Visualizar Animal";
 	var currentUser = JSON.parse(getCookie("userCurrent"));
 	var instituicao = currentUser ? currentUser.perfilAcesso == "Instituicao" : false;
-	
-	if (getCookie("userCurrent") != null)
-		show("cadastrarAnimal",
-				JSON.parse(getCookie("userCurrent")).perfilAcesso == "Instituicao");
-
+	show("cadastrarAnimal",instituicao);
 	
 	AjaxPuro({
-		_path : "animais/"+(instituicao ? "instituicao" : "disponiveis"),
-		_arguments: instituicao ? currentUser.id : undefined,
-		_done : function(data) {
-			animais = data;
-			data.forEach(a => 
-			getElement("#tableAnimal:tbody")[0].append(document.createElement("tr")
-					.append(document.createElement("td").config({innerHTML: a.codigo}))
-					.append(document.createElement("td").config({innerHTML: a.nomeAdotivo}))
-					.append(document.createElement("td").config({innerHTML: a.tipo}))
-					.append(document.createElement("td").config({innerHTML: a.genero}))
-					.append(document.createElement("td").config({innerHTML: a.idade}))
-					.append(document.createElement("td").config({innerHTML: a.raca}))
-					.append(document.createElement("td").config({innerHTML: a.disponivel ? "Disponível" : "Não Disponível"}))
-					.append(document.createElement("td").config({
-						innerHTML: "<a class='btn btn-default' href='detalhe.html?"+a.id+"'>Detalhes</a> "+ 
-							       "<button class='btn btn-default' onclick='apagarAnimal("+a.id+")'>Apagar</button>"
-						}))));
-		},
-		_error : function(request, textStatus, error) {
-			var err = textStatus + ", " + error;
-			console.log("Request Failed: " + err);
-		}
+	    _type: "GET",
+	    _path: "instituicoes/usuario",
+	    _arguments: currentUser.id,
+	    _done: function (data) {
+	    	AjaxPuro({
+	    		_path : "animais/"+(instituicao ? "instituicao" : "disponiveis"),
+	    		_arguments: instituicao ? data.id : undefined,
+	    		_done : function(data) {
+	    			animais = data;
+	    			data.forEach(a => 
+	    			getElement("#tableAnimal:tbody")[0].append(document.createElement("tr")
+	    					.append(document.createElement("td").config({innerHTML: a.codigo}))
+	    					.append(document.createElement("td").config({innerHTML: a.nomeAdotivo}))
+	    					.append(document.createElement("td").config({innerHTML: a.tipo}))
+	    					.append(document.createElement("td").config({innerHTML: a.genero}))
+	    					.append(document.createElement("td").config({innerHTML: a.idade}))
+	    					.append(document.createElement("td").config({innerHTML: a.raca}))
+	    					.append(document.createElement("td").config({innerHTML: a.disponivel ? "Disponível" : "Não Disponível"}))
+	    					.append(document.createElement("td").config({
+	    						innerHTML: "<a class='btn btn-default' href='detalhe.html?"+a.id+"'>Detalhes</a> "+ 
+	    							       "<button class='btn btn-default' onclick='apagarAnimal("+a.id+")'>Apagar</button>"
+	    						}))));
+	    		},
+	    		_error : function(request, textStatus, error) {
+	    			var err = textStatus + ", " + error;
+	    			console.log("Request Failed: " + err);
+	    		}
+	    	});	    		
+	    		
+	    },
+	    _error: function (request, textStatus, error) {
+	        var err = textStatus + ", " + error;
+	        console.log("Request Failed: " + err);
+	    }
 	});
+	
 });
+
 	
 function apagarAnimal(id){
 	var animal = animais.filter(a => a.id == id)[0];

@@ -1,0 +1,107 @@
+<script src="/PetShop_Cliente/js/Xandelier.js"></script>
+<script src="/PetShop_Cliente/js/login.js"></script>
+<script src="/PetShop_Cliente/js/Layout.js"></script>
+<script>
+var instituicaoId;
+getLayout(function(){
+	AjaxPuro({
+	    _type: "GET",
+	    _path: "instituicoes/usuario",
+	    _arguments: JSON.parse(getCookie("userCurrent")).id,
+	    _done: function (data) {
+	    	instituicaoId = data;
+	    },
+	    _error: function (request, textStatus, error) {
+	        var err = textStatus + ", " + error;
+	        console.log("Request Failed: " + err);
+	    }
+	});	
+	document.title = "Cadastrar nova Adoção";
+	getElement("#animal").value = location.search.split('id=')[1];
+	getElement("#animal").toggleAttribute("disabled", "disabled");
+	getElement("#Enviar").addEventListener("click", Cadastrar);
+	
+	
+	AjaxPuro({
+	    _type: "GET",
+	    _path: "pessoas/todos",
+	    _done: function (data) {
+	    	data.forEach(a => 
+	    	getElement("#selectPessoa").append(document.createElement("OPTION").config({value: a.id,innerHTML: a.nomeSocial})));
+
+	    },
+	    _error: function (request, textStatus, error) {
+	        var err = textStatus + ", " + error;
+	        console.log("Request Failed: " + err);
+	    }
+	});	
+	
+	
+	});
+</script>
+
+
+
+<div class="form-horizontal">
+
+	<div class="form-group">
+		<div class="col-lg-4"></div>
+		<div class="col-lg-4">
+		<h1>Cadastro de Adoção:</h1>
+		</div>
+	</div>
+
+	<div class="form-horizontal">
+	<div class="form-group">
+		<label class="control-label col-lg-4" for="codigo"> Id do Animal: </label>
+		<div class="col-lg-4">
+			<input id="animal" type="text" class="form-control" />
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="control-label col-lg-4" for="tipo"> Pessoa: </label>
+		<div class="col-lg-4">
+			<select id="selectPessoa" class="form-control adocaoAtt">
+			</select>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="control-label col-lg-4" for="dataNascimento"> Data da Adocao: </label>
+		<div class="col-lg-4">
+			<input id="dataAdocao" type="date" class="form-control pessoaAtt requiredAtt" />
+		</div>
+	</div>
+	
+	<div class="form-group">
+		<div class="col-lg-4"></div>
+		<div class="col-lg-4">
+			<button class="btn btn-default btn-lg btn-block btn-primary"
+				id="Enviar">Enviar</button>
+		</div>
+	</div>
+</div>
+
+<script>
+function Cadastrar() {
+	if (!getElement(".adocaoAtt").some(d => d.value==="")) {
+		var animal = {instituicao: instituicaoId};
+		getElement(".adocaoAtt").forEach(function(el){
+			animal[el.id] = (el.type === "checkbox") ? el.checked : 
+			(el.type === "number" || el.tagName === "SELECT") ? parseFloat(el.value) : el.value;
+		});		
+		AjaxPuro({
+			_type: "POST",
+			_path: "animais",
+			_arguments: JSON.stringify(animal),
+			_done: function (data) {
+				alert(data);
+				window.location.href = "home.html";
+			},
+			_error: function (request, textStatus, error) {
+				var err = textStatus + ", " + error;
+				console.log("Request Failed: " + err);
+			}
+		});
+	} else alert("Preencha todos os campos para cadastrar");
+};
+</script>
