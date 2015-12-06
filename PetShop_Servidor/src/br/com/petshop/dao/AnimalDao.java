@@ -3,6 +3,7 @@ package br.com.petshop.dao;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 
 import br.com.petshop.model.Animal;
@@ -125,4 +126,28 @@ public class AnimalDao {
 			System.err.println(e.getMessage());
 		}
 	}
+
+
+public static void marcarIndisponivel(Animal Animal) {
+
+	try {
+
+		session = HibernateUtil.getSessionFactory().openSession();
+
+		session.beginTransaction();
+		
+		Query query = session.createQuery("update Animal set disponivel = false" +
+				" where id = :id");
+		query.setParameter("id", Animal.getId());
+		query.executeUpdate();
+
+		Animal.setDisponivel(false);
+		session.update(Animal);
+
+		session.getTransaction().commit();
+
+	} catch (Exception e) {
+		System.err.println(e.getMessage());
+	}
+}
 }

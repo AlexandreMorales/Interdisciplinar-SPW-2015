@@ -3,6 +3,7 @@ package br.com.petshop.model;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -25,26 +26,57 @@ public class Adocao {
 	@ManyToOne
     @JoinColumn(name="instituicao_id")
 	private Instituicao instituicao;
-	@ManyToMany(targetEntity = Animal.class, fetch = FetchType.LAZY)
-	private List<Animal> animais;
+	@ManyToOne
+    @JoinColumn(name="animal_id")
+	private Animal animal;
 	private Date dataAdocao;
 	
-	public Adocao(Pessoa pessoa, Instituicao instituicao,
-			Date dataAdocao) {
-		super();
-		this.dataAdocao = dataAdocao;
-	}
-
 	public Adocao() {
 		super();
 	}
+
+	
+	public Adocao(int id, Pessoa pessoa, Instituicao instituicao,
+			Animal animal, Date dataAdocao) {
+		super();
+		this.id = id;
+		this.pessoa = pessoa;
+		this.instituicao = instituicao;
+		this.animal = animal;
+		this.dataAdocao = dataAdocao;
+	}
+
 
 	public int getId() {
 		return id;
 	}
 
-	public void setId(int idA) {
-		this.id = idA;
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public Pessoa getPessoa() {
+		return pessoa;
+	}
+
+	public void setPessoa(Pessoa pessoa) {
+		this.pessoa = pessoa;
+	}
+
+	public Instituicao getInstituicao() {
+		return instituicao;
+	}
+
+	public void setInstituicao(Instituicao instituicao) {
+		this.instituicao = instituicao;
+	}
+
+	public Animal getAnimal() {
+		return animal;
+	}
+
+	public void setAnimal(Animal animal) {
+		this.animal = animal;
 	}
 
 	public Date getDataAdocao() {
@@ -54,6 +86,8 @@ public class Adocao {
 	public void setDataAdocao(Date dataAdocao) {
 		this.dataAdocao = dataAdocao;
 	}
+	
+
 	
 	
 			

@@ -12,7 +12,10 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
 import br.com.petshop.dao.AdocaoDao;
+import br.com.petshop.dao.AnimalDao;
+import br.com.petshop.dao.AnuncioDao;
 import br.com.petshop.model.Adocao;
+import br.com.petshop.model.Animal;
 @Path("/adocoes")
 public class AdocaoService {
 
@@ -32,15 +35,17 @@ public class AdocaoService {
 
 		@POST
 		@Consumes("application/json")
-		public Response criarAdocao(Adocao Adocao) {
+		public Response criarAdocao(Adocao adocao) {
 			try {
-				AdocaoDao.saveAdocao(Adocao);
+				AdocaoDao.saveAdocao(adocao);
+				AnimalDao.marcarIndisponivel(adocao.getAnimal());
+				AnuncioDao.deletePorAnimal(adocao.getAnimal());
 			} catch (Exception e) {
 				String result = "Error: " + e.getMessage();
 				return Response.status(500).entity(result).build();
 			}
 
-			String result = "Adocao Criada :" + Adocao.getId();
+			String result = "Adocao Criada :" + adocao.getId();
 			return Response.status(200).entity(result).build();
 			
 		}

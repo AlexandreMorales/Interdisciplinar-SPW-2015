@@ -3,6 +3,7 @@
 <script src="/PetShop_Cliente/js/Layout.js"></script>
 <script>
 var instituicaoId;
+var animal;
 getLayout(function(){
 	AjaxPuro({
 	    _type: "GET",
@@ -17,9 +18,22 @@ getLayout(function(){
 	    }
 	});	
 	document.title = "Cadastrar nova Adoção";
-	getElement("#animal").value = location.search.split('id=')[1];
-	getElement("#animal").toggleAttribute("disabled", "disabled");
 	getElement("#Enviar").addEventListener("click", Cadastrar);
+	
+	AjaxPuro({
+	    _type: "GET",
+	    _path: "animais",
+	    _arguments: location.search.split('id=')[1],
+	    _done: function (data) {
+	    	animal = data;
+	    	getElement("#animal").value = animal.codigo;
+	    	getElement("#animal").toggleAttribute("disabled", "disabled");
+	    },
+	    _error: function (request, textStatus, error) {
+	        var err = textStatus + ", " + error;
+	        console.log("Request Failed: " + err);
+	    }
+	});	
 	
 	
 	AjaxPuro({
@@ -27,7 +41,7 @@ getLayout(function(){
 	    _path: "pessoas/todos",
 	    _done: function (data) {
 	    	data.forEach(a => 
-	    	getElement("#selectPessoa").append(document.createElement("OPTION").config({value: a.id,innerHTML: a.nomeSocial})));
+	    	getElement("#pessoa").append(document.createElement("OPTION").config({value: a.id,innerHTML: a.nomeSocial})));
 
 	    },
 	    _error: function (request, textStatus, error) {
@@ -61,14 +75,14 @@ getLayout(function(){
 	<div class="form-group">
 		<label class="control-label col-lg-4" for="tipo"> Pessoa: </label>
 		<div class="col-lg-4">
-			<select id="selectPessoa" class="form-control adocaoAtt">
+			<select id="pessoa" class="form-control">
 			</select>
 		</div>
 	</div>
 	<div class="form-group">
 		<label class="control-label col-lg-4" for="dataNascimento"> Data da Adocao: </label>
 		<div class="col-lg-4">
-			<input id="dataAdocao" type="date" class="form-control pessoaAtt requiredAtt" />
+			<input id="dataAdocao" type="date" class="form-control requiredAtt" />
 		</div>
 	</div>
 	
@@ -84,18 +98,18 @@ getLayout(function(){
 <script>
 function Cadastrar() {
 	if (!getElement(".adocaoAtt").some(d => d.value==="")) {
-		var animal = {instituicao: instituicaoId};
-		getElement(".adocaoAtt").forEach(function(el){
-			animal[el.id] = (el.type === "checkbox") ? el.checked : 
-			(el.type === "number" || el.tagName === "SELECT") ? parseFloat(el.value) : el.value;
-		});		
+		var adocao = {instituicao: instituicaoId, 
+					  animal: animal,
+					  pessoa: {id: getElement("#pessoa").value},
+					  dataAdocao: getElement("#dataAdocao").value };	
+		console.log(adocao);
 		AjaxPuro({
 			_type: "POST",
-			_path: "animais",
-			_arguments: JSON.stringify(animal),
-			_done: function (data) {
+			_path: "adocoes",
+			_arguments: JSON.stringify(adocao),
+			_done: function (data) {		
 				alert(data);
-				window.location.href = "home.html";
+				window.location.href = "../animais/home.html";
 			},
 			_error: function (request, textStatus, error) {
 				var err = textStatus + ", " + error;
