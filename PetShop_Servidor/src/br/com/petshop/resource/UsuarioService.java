@@ -35,6 +35,18 @@ public class UsuarioService {
 		public Usuario trazerUsuario(@PathParam("id") int id) {
 			return UsuarioDao.getById(id);
 		}
+		
+		@POST
+		@Path("/autenticar")
+		@Produces("application/json")
+		public Response autenticarUsuario(Usuario usuario) {
+			Usuario result = UsuarioDao.getUsuario(usuario);
+			if(result != null){
+				return Response.status(200).entity(result).build();
+			}else{
+				return Response.status(500).entity("Nao Autorizado").build();
+			}		
+		}
 
 		@POST
 		@Consumes("application/json")

@@ -48,6 +48,28 @@ public class UsuarioDao {
 		return result;
 	}
 
+	public static Usuario getUsuario(Usuario usuario){
+		Usuario result = null;
+		try {
+		
+		session = HibernateUtil.getSessionFactory().openSession();
+		  
+        session.beginTransaction();
+
+        result = (Usuario)
+    		    session.createQuery("select u from Usuario u where u.Email = :email AND u.Senha = :senha")
+    		           .setString("email", usuario.getEmail()).setString("senha", usuario.getSenha())
+    		           .uniqueResult();
+        
+        session.getTransaction().commit();
+        
+		}catch(Exception e){
+			System.err.println(e.getMessage());		
+		}
+		return result;
+	}
+	
+	
 	@SuppressWarnings("unchecked")
 	public static List<Usuario> getUsuarios(){
 		

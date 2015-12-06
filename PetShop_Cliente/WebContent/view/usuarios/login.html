@@ -1,0 +1,78 @@
+<script src="/PetShop_Cliente/js/Xandelier.js"></script>
+<script src="/PetShop_Cliente/js/Facebook.js"></script>
+<script src="/PetShop_Cliente/js/login.js"></script>
+<script>
+window.onload = function(){
+	ExecFacebook();
+	var container = document.documentElement.innerHTML;
+	window.rooturl = "/PetShop_Cliente/";
+	AjaxPuro({
+	    _path: "view/Home/home.html",
+	    _done: function (data) {
+	    	document.documentElement.innerHTML = data;
+	    	document.title = "Login";
+	    	getElement("#container").innerHTML = container;
+	    	getElement("#Enviar").addEventListener("click", Logar);
+	    },
+	    _error: function (request, textStatus, error) {
+	        var err = textStatus + ", " + error;
+	        console.log("Request Failed: " + err);
+	    }		
+	});
+	window.rooturl = "/PetShop_Servidor/";
+	gerenciaLogin();
+}
+</script>
+
+<div class="form-horizontal">
+	<div class="form-group">
+		<label class="control-label col-lg-3" for="email"> Email: </label>
+		<div class="col-lg-5">
+			<input id="email" type="text" class="form-control usuarioAtt" />
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="control-label col-lg-3" for="senha"> Senha: </label>
+		<div class="col-lg-5">
+			<input id="senha" type="password" class="form-control usuarioAtt" />
+		</div>
+	</div>
+
+	<div class="form-group">
+		<div class="col-md-offset-3 col-md-5">
+			<button class="btn btn-default btn-lg btn-block btn-primary"
+				id="Enviar">Enviar</button>
+		</div>
+		<div class="col-md-4">
+			<fb:login-button scope="public_profile,email"
+				onlogin="checkLoginState();">
+			</fb:login-button>
+		</div>
+	</div>
+</div>
+
+<script>
+function Logar() {
+		if (!getElement(".usuarioAtt").some(d => d.value==="")) {
+			var usuario = {};
+			getElement(".usuarioAtt").forEach(function(el){
+				usuario[el.id] = (el.type === "checkbox") ? el.checked : 
+					(el.type === "number" || el.tagName === "SELECT") ? parseFloat(el.value) : el.value;
+			});
+			console.log(usuario);
+			AjaxPuro({
+			    _type: "POST",
+			    _path: "usuarios/autenticar",
+			    _arguments: JSON.stringify(usuario),
+			    _done: function (data) {
+			    	setCookie("userCurrent",JSON.stringify(data));
+			    	window.location.href = "Home/home.html";
+			    },
+			    _error: function (request, textStatus, error) {
+			        var err = textStatus + ", " + error;
+			        alert("Request Failed: " + err);
+			    }
+			});
+		} else alert("Preencha todos os campos para cadastrar");
+	};
+</script>
