@@ -6,6 +6,8 @@ import java.util.List;
 import org.hibernate.Session;
 
 import br.com.petshop.model.Pessoa;
+import br.com.petshop.model.Pessoa;
+import br.com.petshop.model.Usuario;
 import br.com.petshop.util.HibernateUtil;
 
 
@@ -48,6 +50,27 @@ public class PessoaDao {
 		return result;
 	}
 
+	public static Pessoa getByUsuario(int id){
+		Pessoa result = null;
+		try {
+		
+		session = HibernateUtil.getSessionFactory().openSession();
+		  
+        session.beginTransaction();
+
+        result = (Pessoa)
+    		    session.createQuery("select u from Pessoa u where u.usuario.id = :id")
+    		           .setInteger("id", id)
+    		           .uniqueResult();
+        
+        session.getTransaction().commit();
+        
+		}catch(Exception e){
+			System.err.println(e.getMessage());		
+		}
+		return result;
+	}
+	
 	@SuppressWarnings("unchecked")
 	public static List<Pessoa> getPessoas(){
 		

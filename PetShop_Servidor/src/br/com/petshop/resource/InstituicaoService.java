@@ -19,6 +19,7 @@ import com.google.gson.Gson;
 import br.com.petshop.dao.InstituicaoDao;
 import br.com.petshop.model.Adocao;
 import br.com.petshop.model.Instituicao;
+import br.com.petshop.model.Usuario;
 @Path("/instituicoes")
 public class InstituicaoService {
 
@@ -34,6 +35,13 @@ public class InstituicaoService {
 		@Produces("application/json")
 		public Instituicao trazerInstituicao(@PathParam("id") int id) {
 			return InstituicaoDao.getById(id);
+		}
+		
+		@GET
+		@Path("/usuario/{id}")
+		@Produces("application/json")
+		public Instituicao trazerInstituicaoPorUsuario(@PathParam("id") int id) {
+			return InstituicaoDao.getByUsuario(id);
 		}
 
 		@POST

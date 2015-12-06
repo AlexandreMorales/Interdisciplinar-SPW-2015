@@ -1,6 +1,6 @@
 function setCookie(name, value, duration) {
         var cookie = name + "=" + value +
-        ((duration) ? "; duration=" + duration.toGMTString() : "");
+        ((duration) ? "; duration=" + duration.toGMTString() : "") + "; path=/PetShop_Cliente/view/";
  
         document.cookie = cookie;
 }

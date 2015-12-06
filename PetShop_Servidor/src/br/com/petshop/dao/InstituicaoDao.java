@@ -6,6 +6,8 @@ import java.util.List;
 import org.hibernate.Session;
 
 import br.com.petshop.model.Instituicao;
+import br.com.petshop.model.Pessoa;
+import br.com.petshop.model.Usuario;
 import br.com.petshop.util.HibernateUtil;
 
 
@@ -39,6 +41,27 @@ public class InstituicaoDao {
         session.beginTransaction();
 
         result =  (Instituicao) session.get(Instituicao.class, id);
+        
+        session.getTransaction().commit();
+        
+		}catch(Exception e){
+			System.err.println(e.getMessage());		
+		}
+		return result;
+	}
+	
+	public static Instituicao getByUsuario(int id){
+		Instituicao result = null;
+		try {
+		
+		session = HibernateUtil.getSessionFactory().openSession();
+		  
+        session.beginTransaction();
+
+        result = (Instituicao)
+    		    session.createQuery("select u from Instituicao u where u.usuario.id = :id")
+    		           .setInteger("id", id)
+    		           .uniqueResult();
         
         session.getTransaction().commit();
         

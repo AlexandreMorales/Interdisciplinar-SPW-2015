@@ -77,6 +77,23 @@ function Cadastrar() {
 				animal[el.id] = (el.type === "checkbox") ? el.checked : 
 					(el.type === "number" || el.tagName === "SELECT") ? parseFloat(el.value) : el.value;
 			});
+			
+			
+			AjaxPuro({
+			    _type: "GET",
+			    _path: "instituicoes/usuario",
+			    _arguments: JSON.parse(getCookie("userCurrent")).id,
+			    _done: function (data) {
+			    	animal.instituicao = {"id": data.id+""};
+			    },
+			    _error: function (request, textStatus, error) {
+			        var err = textStatus + ", " + error;
+			        console.log("Request Failed: " + err);
+			    }
+			});
+			
+			console.log(animal);
+			
 			AjaxPuro({
 			    _type: "POST",
 			    _path: "animais",

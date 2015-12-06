@@ -76,8 +76,8 @@ function Cadastrar() {
 			
 			
 			instituicao.usuario = { "id":location.search.split('id=')[1]};
-			
-			AjaxPuro({
+			console.log(instituicao);
+			/*AjaxPuro({
 			    _type: "POST",
 			    _path: "instituicoes",
 			    _arguments: JSON.stringify(instituicao),
@@ -89,7 +89,7 @@ function Cadastrar() {
 			        var err = textStatus + ", " + error;
 			        console.log("Request Failed: " + err);
 			    }
-			});
+			});*/
 		} else alert("Preencha todos os campos para cadastrar");
 	};
 </script>
