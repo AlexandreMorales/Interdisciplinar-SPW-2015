@@ -19,19 +19,19 @@ getLayout(function(){
 	<div class="form-group">
 		<label class="control-label col-lg-4" for="nomeSocial"> Nome Social: </label>
 		<div class="col-lg-4">
-			<input id="nomeSocial" type="text" class="form-control pessoaAtt" />
+			<input id="nomeSocial" type="text" class="form-control pessoaAtt requiredAtt" />
 		</div>
 	</div>
 	<div class="form-group">
 		<label class="control-label col-lg-4" for="dataNascimento"> Data Nascimento: </label>
 		<div class="col-lg-4">
-			<input id="dataNascimento" type="date" class="form-control pessoaAtt" />
+			<input id="dataNascimento" type="date" class="form-control pessoaAtt requiredAtt" />
 		</div>
 	</div>
 	<div class="form-group">
 		<label class="control-label col-lg-4" for="nomeParente1"> Nome Parente 1: </label>
 		<div class="col-lg-4">
-			<input id="nomeParente1" type="text" class="form-control pessoaAtt" />
+			<input id="nomeParente1" type="text" class="form-control pessoaAtt requiredAtt" />
 		</div>
 	</div>
 	<div class="form-group">
@@ -43,14 +43,14 @@ getLayout(function(){
 	<div class="form-group">
 		<label class="control-label col-lg-4" for="telefone"> Telefone: </label>
 		<div class="col-lg-4">
-			<input id="telefone" type="text" class="form-control pessoaAtt" />
+			<input id="telefone" type="text" class="form-control pessoaAtt requiredAtt" />
 		</div>
 	</div>
 
 	<div class="form-group">
 		<label class="control-label col-lg-4" for="genero"> Gênero: </label>
 		<div class="col-lg-4">
-			<select id="genero" class="form-control pessoaAtt">
+			<select id="genero" class="form-control pessoaAtt requiredAtt">
 				<option value="0">Feminino</option>
 				<option value="1">Masculino</option>
 				<option value="2">Outro</option>
@@ -60,7 +60,7 @@ getLayout(function(){
 	<div class="form-group">
 		<label class="control-label col-lg-4" for="genero"> Etnia: </label>
 		<div class="col-lg-4">
-			<select id="genero" class="form-control pessoaAtt">
+			<select id="genero" class="form-control pessoaAtt requiredAtt">
 				<option value="0">Branca</option>
 				<option value="1">Negra</option>
 				<option value="2">Parda</option>
@@ -78,14 +78,14 @@ getLayout(function(){
 	<div class="form-group">
 		<label class="control-label col-lg-4" for="religiao"> Religiao: </label>
 		<div class="col-lg-4">
-			<input id="religiao" type="text" class="form-control pessoaAtt" />
+			<input id="religiao" type="text" class="form-control pessoaAtt requiredAtt" />
 		</div>
 	</div>
 	<div class="form-group">
 		<label class="control-label col-lg-4" for="possuiDeficienciaFisica">
 			Possui Deficiencia Fisica: </label>
 		<div class="col-lg-4 checkbox">
-			<input id="possuiDeficienciaFisica" type="checkbox" class="animalAtt"
+			<input id="possuiDeficienciaFisica" type="checkbox" class="animalAtt requiredAtt"
 				style="margin-left: 0px;" />
 		</div>
 	</div>
@@ -100,7 +100,7 @@ getLayout(function(){
 
 <script>
 function Cadastrar() {
-	if (!getElement(".pessoaAtt").some(d => d.value==="")) {
+	if (!getElement(".pessoaAtt requiredAtt").some(d => d.value==="")) {
 		var pessoa = {};
 		getElement(".pessoaAtt").forEach(function(el){
 			pessoa[el.id] = (el.type === "checkbox") ? el.checked : 
@@ -114,7 +114,7 @@ function Cadastrar() {
 		    _arguments: JSON.stringify(pessoa),
 		    _done: function (data) {
 		    	 alert(data);
-			     window.location.href = "../home/home.html";
+			     window.location.href = "../Home/home.html";
 		    },
 		    _error: function (request, textStatus, error) {
 		        var err = textStatus + ", " + error;
