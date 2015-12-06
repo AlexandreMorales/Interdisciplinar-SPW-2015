@@ -10,40 +10,48 @@ getLayout(function(){
 
 
 <div class="form-horizontal">
+
+<div class="form-group">
+		<div class="col-lg-4"></div>
+		<div class="col-lg-6">
+		<h1>Cadastro de Pessoa:</h1>
+		</div>
+	</div>
+	
 	<div class="form-group">
-		<label class="control-label col-lg-3" for="nomeSocial"> Nome Social: </label>
-		<div class="col-lg-5">
+		<label class="control-label col-lg-4" for="nomeSocial"> Nome Social: </label>
+		<div class="col-lg-4">
 			<input id="nomeSocial" type="text" class="form-control pessoaAtt" />
 		</div>
 	</div>
 	<div class="form-group">
-		<label class="control-label col-lg-3" for="dataNascimento"> Data Nascimento: </label>
-		<div class="col-lg-5">
+		<label class="control-label col-lg-4" for="dataNascimento"> Data Nascimento: </label>
+		<div class="col-lg-4">
 			<input id="dataNascimento" type="date" class="form-control pessoaAtt" />
 		</div>
 	</div>
 	<div class="form-group">
-		<label class="control-label col-lg-3" for="nomeParente1"> Nome Parente 1: </label>
-		<div class="col-lg-5">
+		<label class="control-label col-lg-4" for="nomeParente1"> Nome Parente 1: </label>
+		<div class="col-lg-4">
 			<input id="nomeParente1" type="text" class="form-control pessoaAtt" />
 		</div>
 	</div>
 	<div class="form-group">
-		<label class="control-label col-lg-3" for="nomeParente2"> Nome Parente 2: </label>
-		<div class="col-lg-5">
+		<label class="control-label col-lg-4" for="nomeParente2"> Nome Parente 2: </label>
+		<div class="col-lg-4">
 			<input id="nomeParente2" type="text" class="form-control pessoaAtt" />
 		</div>
 	</div>
 	<div class="form-group">
-		<label class="control-label col-lg-3" for="telefone"> Telefone: </label>
-		<div class="col-lg-5">
+		<label class="control-label col-lg-4" for="telefone"> Telefone: </label>
+		<div class="col-lg-4">
 			<input id="telefone" type="text" class="form-control pessoaAtt" />
 		</div>
 	</div>
 
 	<div class="form-group">
-		<label class="control-label col-lg-3" for="genero"> Gênero: </label>
-		<div class="col-lg-5">
+		<label class="control-label col-lg-4" for="genero"> Gênero: </label>
+		<div class="col-lg-4">
 			<select id="genero" class="form-control pessoaAtt">
 				<option value="0">Feminino</option>
 				<option value="1">Masculino</option>
@@ -52,28 +60,40 @@ getLayout(function(){
 		</div>
 	</div>	
 	<div class="form-group">
-		<label class="control-label col-lg-3" for="nomeConjuge"> Nome Conjuge: </label>
-		<div class="col-lg-5">
+		<label class="control-label col-lg-4" for="genero"> Etnia: </label>
+		<div class="col-lg-4">
+			<select id="genero" class="form-control pessoaAtt">
+				<option value="0">Branca</option>
+				<option value="1">Negra</option>
+				<option value="2">Parda</option>
+				<option value="2">Amarela</option>
+				<option value="2">Outro</option>
+			</select>
+		</div>
+	</div>	
+	<div class="form-group">
+		<label class="control-label col-lg-4" for="nomeConjuge"> Nome Conjuge: </label>
+		<div class="col-lg-4">
 			<input id="nomeConjuge" type="text" class="form-control pessoaAtt" />
 		</div>
 	</div>
 	<div class="form-group">
-		<label class="control-label col-lg-3" for="religiao"> Religiao: </label>
-		<div class="col-lg-5">
+		<label class="control-label col-lg-4" for="religiao"> Religiao: </label>
+		<div class="col-lg-4">
 			<input id="religiao" type="text" class="form-control pessoaAtt" />
 		</div>
 	</div>
 	<div class="form-group">
-		<label class="control-label col-lg-3" for="possuiDeficienciaFisica">
+		<label class="control-label col-lg-4" for="possuiDeficienciaFisica">
 			Possui Deficiencia Fisica: </label>
-		<div class="col-lg-5 checkbox">
+		<div class="col-lg-4 checkbox">
 			<input id="possuiDeficienciaFisica" type="checkbox" class="animalAtt"
 				style="margin-left: 0px;" />
 		</div>
 	</div>
 	<div class="form-group">
-		<div class="col-lg-3"></div>
-		<div class="col-lg-5">
+		<div class="col-lg-4"></div>
+		<div class="col-lg-4">
 			<button class="btn btn-default btn-lg btn-block btn-primary"
 				id="Enviar">Enviar</button>
 		</div>

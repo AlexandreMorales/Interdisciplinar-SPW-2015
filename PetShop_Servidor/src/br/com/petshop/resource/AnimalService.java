@@ -29,6 +29,20 @@ public class AnimalService {
 	public List<Animal> trazerAnimais() {
 		return AnimalDao.getAnimais();
 	}
+	
+	@GET
+	@Path("/instituicao/{id}")
+	@Produces("application/json")
+	public List<Animal> trazerAnimaisPorInstituicao(@PathParam("id") int id) {
+		return AnimalDao.getByInstituicao(id);
+	}
+	
+	@GET
+	@Path("/disponiveis")
+	@Produces("application/json")
+	public List<Animal> trazerAnimaisDisponiveis() {
+		return AnimalDao.getDisponiveis();
+	}
 
 	@GET
 	@Path("/{id}")

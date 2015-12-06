@@ -34,7 +34,7 @@ function getCookie(name) {
 function deleteCookie(name) {
     if (getCookie(name)) {
            document.cookie = name + "=" +
-           "; expires=Thu, 01-Jan-70 00:00:01 GMT";
+           "; expires=Thu, 01-Jan-70 00:00:01 GMT" + "; path=/PetShop_Cliente/view/";
     }
 }
 
@@ -42,7 +42,11 @@ function gerenciaLogin(){
 	getElement("#li-logout").addEventListener("click", logout);
 	show("li-login", (getCookie("userCurrent")==null));
 	show("li-logout", (getCookie("userCurrent")!=null));
-	show("li-cadastrar", (getCookie("userCurrent")==null));
+	show("li-cadastrar", (getCookie("userCurrent")==null));	
+	
+	if(getCookie("userCurrent")!=null){
+		show("cadastrarAnimal", JSON.parse(getCookie("userCurrent")).perfilAcesso=="Instituicao");
+	}
 }
 
 function logout(){

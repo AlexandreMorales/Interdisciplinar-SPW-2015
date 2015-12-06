@@ -6,6 +6,7 @@ import java.util.List;
 import org.hibernate.Session;
 
 import br.com.petshop.model.Animal;
+import br.com.petshop.model.Instituicao;
 import br.com.petshop.util.HibernateUtil;
 
 
@@ -39,6 +40,44 @@ public class AnimalDao {
         session.beginTransaction();
 
         result =  (Animal) session.get(Animal.class, id);
+        
+        session.getTransaction().commit();
+        
+		}catch(Exception e){
+			System.err.println(e.getMessage());		
+		}
+		return result;
+	}
+	
+	public static List<Animal> getByInstituicao(int id){
+		List<Animal> result = new ArrayList<>();
+		try {
+		
+		session = HibernateUtil.getSessionFactory().openSession();
+		  
+        session.beginTransaction();
+
+        result = session.createQuery("select u from Animal u where u.instituicao.id = :id")
+    		           .setInteger("id", id)
+    		           .list();
+        
+        session.getTransaction().commit();
+        
+		}catch(Exception e){
+			System.err.println(e.getMessage());		
+		}
+		return result;
+	}
+	
+	public static List<Animal> getDisponiveis(){
+		List<Animal> result = new ArrayList<>();
+		try {
+		
+		session = HibernateUtil.getSessionFactory().openSession();
+		  
+        session.beginTransaction();
+
+        result = session.createQuery("select u from Animal u where u.disponivel = true").list();
         
         session.getTransaction().commit();
         

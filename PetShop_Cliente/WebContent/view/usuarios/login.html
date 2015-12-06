@@ -4,28 +4,34 @@
 <script src="/PetShop_Cliente/js/Layout.js"></script>
 <script>
 getLayout(function(){
-	ExecFacebook();
+	//ExecFacebook();
 	document.title = "Login";
 	getElement("#Enviar").addEventListener("click", Logar);
 });
 </script>
 
 <div class="form-horizontal">
+<div class="form-group">
+		<div class="col-lg-5"></div>
+		<div class="col-lg-6">
+		<h1>Login:</h1>
+		</div>
+	</div>
 	<div class="form-group">
-		<label class="control-label col-lg-3" for="email"> Email: </label>
-		<div class="col-lg-5">
+		<label class="control-label col-lg-4" for="email"> Email: </label>
+		<div class="col-lg-4">
 			<input id="email" type="text" class="form-control usuarioAtt" />
 		</div>
 	</div>
 	<div class="form-group">
-		<label class="control-label col-lg-3" for="senha"> Senha: </label>
-		<div class="col-lg-5">
+		<label class="control-label col-lg-4" for="senha"> Senha: </label>
+		<div class="col-lg-4">
 			<input id="senha" type="password" class="form-control usuarioAtt" />
 		</div>
 	</div>
 
 	<div class="form-group">
-		<div class="col-md-offset-3 col-md-5">
+		<div class="col-md-offset-4 col-md-4">
 			<button class="btn btn-default btn-lg btn-block btn-primary"
 				id="Enviar">Enviar</button>
 		</div>

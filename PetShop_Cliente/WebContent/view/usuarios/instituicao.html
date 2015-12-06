@@ -10,45 +10,53 @@ getLayout(function(){
 
 
 <div class="form-horizontal">
+
 	<div class="form-group">
-		<label class="control-label col-lg-3" for="codigo"> Codigo: </label>
-		<div class="col-lg-5">
+		<div class="col-lg-4"></div>
+		<div class="col-lg-6">
+		<h1>Cadastro de Instituição:</h1>
+		</div>
+	</div>
+	
+	<div class="form-group">
+		<label class="control-label col-lg-4" for="codigo"> Codigo: </label>
+		<div class="col-lg-4">
 			<input id="codigo" type="text" class="form-control instituicaoAtt" />
 		</div>
 	</div>
 	<div class="form-group">
-		<label class="control-label col-lg-3" for="nome"> Nome: </label>
-		<div class="col-lg-5">
+		<label class="control-label col-lg-4" for="nome"> Nome: </label>
+		<div class="col-lg-4">
 			<input id="nome" type="text" class="form-control instituicaoAtt" />
 		</div>
 	</div>
 	<div class="form-group">
-		<label class="control-label col-lg-3" for="cnpj"> CNPJ: </label>
-		<div class="col-lg-5">
+		<label class="control-label col-lg-4" for="cnpj"> CNPJ: </label>
+		<div class="col-lg-4">
 			<input id="cnpj" type="text" class="form-control instituicaoAtt" />
 		</div>
 	</div>
 	<div class="form-group">
-		<label class="control-label col-lg-3" for="endereco"> Endereco: </label>
-		<div class="col-lg-5">
+		<label class="control-label col-lg-4" for="endereco"> Endereco: </label>
+		<div class="col-lg-4">
 			<input id="endereco" type="text" class="form-control instituicaoAtt" />
 		</div>
 	</div>
 	<div class="form-group">
-		<label class="control-label col-lg-3" for="telefone"> Telefone: </label>
-		<div class="col-lg-5">
+		<label class="control-label col-lg-4" for="telefone"> Telefone: </label>
+		<div class="col-lg-4">
 			<input id="telefone" type="text" class="form-control instituicaoAtt" />
 		</div>
 	</div>
 		<div class="form-group">
-		<label class="control-label col-lg-3" for="email"> Email: </label>
-		<div class="col-lg-5">
+		<label class="control-label col-lg-4" for="email"> Email: </label>
+		<div class="col-lg-4">
 			<input id="email" type="text" class="form-control instituicaoAtt" />
 		</div>
 	</div>
 	<div class="form-group">
-		<label class="control-label col-lg-3" for="tipo"> Tipo: </label>
-		<div class="col-lg-5">
+		<label class="control-label col-lg-4" for="tipo"> Tipo: </label>
+		<div class="col-lg-4">
 			<select id="tipo" class="form-control instituicaoAtt">
 				<option value="0">Canil</option>
 				<option value="1">Gatil</option>
@@ -57,8 +65,8 @@ getLayout(function(){
 		</div>
 	</div>	
 	<div class="form-group">
-		<div class="col-lg-3"></div>
-		<div class="col-lg-5">
+		<div class="col-lg-4"></div>
+		<div class="col-lg-4">
 			<button class="btn btn-default btn-lg btn-block btn-primary"
 				id="Enviar">Enviar</button>
 		</div>
@@ -74,9 +82,8 @@ function Cadastrar() {
 					(el.type === "number" || el.tagName === "SELECT") ? parseFloat(el.value) : el.value;
 			});
 			
-			
 			instituicao.usuario = { "id":location.search.split('id=')[1]};
-			console.log(instituicao);
+			
 			AjaxPuro({
 			    _type: "POST",
 			    _path: "instituicoes",

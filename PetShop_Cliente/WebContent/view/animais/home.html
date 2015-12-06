@@ -5,8 +5,11 @@
 var animais; 
 getLayout(function(){
 	document.title = "Visualizar Animal";
-	AjaxPuro({
-			_path : "animais/todos",
+	
+	if(JSON.parse(getCookie("userCurrent")).perfilAcesso == "Instituicao"){
+		AjaxPuro({
+			_path : "animais/instituicao",
+			_arguments: JSON.parse(getCookie("userCurrent")).id,
 			_done : function(data) {
 				animais = data;
 				data.forEach(a => 
@@ -28,6 +31,32 @@ getLayout(function(){
 				console.log("Request Failed: " + err);
 			}
 		});
+	}else{
+		AjaxPuro({
+				_path : "animais/disponiveis",
+				_done : function(data) {
+					animais = data;
+					data.forEach(a => 
+					getElement("#tableAnimal:tbody")[0].append(document.createElement("tr")
+							.append(document.createElement("td").config({innerHTML: a.codigo}))
+							.append(document.createElement("td").config({innerHTML: a.nomeAdotivo}))
+							.append(document.createElement("td").config({innerHTML: a.tipo}))
+							.append(document.createElement("td").config({innerHTML: a.genero}))
+							.append(document.createElement("td").config({innerHTML: a.idade}))
+							.append(document.createElement("td").config({innerHTML: a.raca}))
+							.append(document.createElement("td").config({innerHTML: a.disponivel ? "Disponível" : "Não Disponível"}))
+							.append(document.createElement("td").config({
+								innerHTML: "<a class='btn btn-default' href='detalhe.html?"+a.id+"'>Detalhes</a> "+ 
+									       "<button class='btn btn-default' onclick='apagarAnimal("+a.id+")'>Apagar</button>"
+								}))));
+				},
+				_error : function(request, textStatus, error) {
+					var err = textStatus + ", " + error;
+					console.log("Request Failed: " + err);
+				}
+			});
+	}
+	
 	});
 	
 	function apagarAnimal(id){
@@ -52,7 +81,7 @@ getLayout(function(){
 </script>
 
 <div class="form-horizontal">
-	<div class="form-group">
+	<div id="cadastrarAnimal" class="form-group">
 		<div class="col-lg-3"></div>
 		<div class="col-lg-5">
 			<a class="btn btn-default btn-lg btn-block btn-primary"

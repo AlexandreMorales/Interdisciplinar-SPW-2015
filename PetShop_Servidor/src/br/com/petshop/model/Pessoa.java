@@ -34,6 +34,7 @@ public class Pessoa {
 	private String NomeParente2;
 	private String Telefone;
 	private GeneroPessoa Genero;
+	private EtniaPessoa Etnia;
 	private String NomeConjuge;
 	private String Religiao;
 	private boolean PossuiDeficienciaFisica;
@@ -127,6 +128,16 @@ public class Pessoa {
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
 	}
+
+	public EtniaPessoa getEtnia() {
+		return Etnia;
+	}
+
+	public void setEtnia(EtniaPessoa etnia) {
+		Etnia = etnia;
+	}
+	
+	
 		
 	
 }
