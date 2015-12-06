@@ -10,6 +10,13 @@ getLayout(function(){
 	    _arguments: JSON.parse(getCookie("userCurrent")).id,
 	    _done: function (data) {
 	    	instituicaoId = data;
+	
+	    	if(data.tipo == "Ambos"){
+	    		getElement("#tipo").append(document.createElement("OPTION").config({value: 0,innerHTML: "Cachorro"}));
+	    	    getElement("#tipo").append(document.createElement("OPTION").config({value: 1,innerHTML: "Gato"}));	
+	    	}else{
+	    		getElement("#tipo").append(document.createElement("OPTION").config( (data.tipo == "Canil" ? {value: 0,innerHTML: "Cachorro"} : {value: 1,innerHTML: "Gato"})));
+	    	}	    
 	    },
 	    _error: function (request, textStatus, error) {
 	        var err = textStatus + ", " + error;
@@ -18,6 +25,10 @@ getLayout(function(){
 	});	
 	document.title = "Cadastrar novo Animal";
 	getElement("#Enviar").addEventListener("click", Cadastrar);
+	getElement("#disponivel").checked = true;
+	
+	
+	
 });
 </script>
 
@@ -28,7 +39,7 @@ getLayout(function(){
 	<div class="form-group">
 		<div class="col-lg-4"></div>
 		<div class="col-lg-4">
-		<h1>Cadastro de Animais:</h1>
+			<h1>Cadastro de Animais:</h1>
 		</div>
 	</div>
 
@@ -49,8 +60,6 @@ getLayout(function(){
 		<label class="control-label col-lg-4" for="tipo"> Tipo: </label>
 		<div class="col-lg-4">
 			<select id="tipo" class="form-control animalAtt">
-				<option value="0">Cachorro</option>
-				<option value="1">Gato</option>
 			</select>
 		</div>
 	</div>

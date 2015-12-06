@@ -23,7 +23,6 @@ public class Instituicao {
 	private String CNPJ;
 	private String Endereco;
 	private String Telefone;
-	private String Email;
 	private TipoInstituicao Tipo;
 	@OneToOne
 	private Usuario usuario;
@@ -42,7 +41,6 @@ public class Instituicao {
 		CNPJ = cNPJ;
 		Endereco = endereco;
 		Telefone = telefone;
-		Email = email;
 		Tipo = tipo;
 		this.usuario = usuario;
 	}
@@ -81,12 +79,6 @@ public class Instituicao {
 	}
 	public void setTelefone(String telefone) {
 		Telefone = telefone;
-	}
-	public String getEmail() {
-		return Email;
-	}
-	public void setEmail(String email) {
-		Email = email;
 	}
 	public TipoInstituicao getTipo() {
 		return Tipo;
