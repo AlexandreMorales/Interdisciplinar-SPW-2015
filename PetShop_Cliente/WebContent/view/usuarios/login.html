@@ -4,7 +4,7 @@
 <script src="/PetShop_Cliente/js/Layout.js"></script>
 <script>
 getLayout(function(){
-	//ExecFacebook();
+	ExecFacebook();
 	document.title = "Login";
 	getElement("#Enviar").addEventListener("click", Logar);
 });
@@ -39,6 +39,7 @@ getLayout(function(){
 			<fb:login-button scope="public_profile,email"
 				onlogin="checkLoginState();">
 			</fb:login-button>
+			<div id="status"></div>
 		</div>
 	</div>
 </div>
@@ -61,8 +62,7 @@ function Logar() {
 		    	window.location.href = "../Home/home.html";
 		    },
 		    _error: function (request, textStatus, error) {
-		        var err = textStatus + ", " + error;
-		        alert("Request Failed: " + err);
+		        alert(error);
 		    }
 		});
 	} else alert("Preencha todos os campos para cadastrar");

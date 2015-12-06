@@ -4,8 +4,10 @@
 <script src="/PetShop_Cliente/js/Layout.js"></script>
 <script>
 getLayout(function(){
+	ExecFacebook();
 	document.title = "Cadastrar novo Usuário";
 	getElement("#Enviar").addEventListener("click", Cadastrar);
+	getElement("#perfilAcesso").addEventListener("change", escondeLogFacebook);
 });
 </script>
 
@@ -46,15 +48,20 @@ getLayout(function(){
 			<button class="btn btn-default btn-lg btn-block btn-primary"
 				id="Enviar">Enviar</button>
 		</div>
-		<div class="col-md-4">
+		<div class="col-md-4" id="loginFB">
 			<fb:login-button scope="public_profile,email"
 				onlogin="checkLoginState();">
 			</fb:login-button>
+			<div id="status"></div>
 		</div>
 	</div>
 </div>
 
 <script>
+function escondeLogFacebook(){
+	show('loginFB', this.value === "0");
+};
+
 function Cadastrar() {
 	if (!getElement(".usuarioAtt").some(d => d.value==="")) {
 		var usuario = {};
@@ -71,8 +78,7 @@ function Cadastrar() {
 				window.location.href = ((usuario.perfilAcesso==0) ? "pessoa.html?id=" : "instituicao.html?id=")+data;
 			},
 			_error: function (request, textStatus, error) {
-				var err = textStatus + ", " + error;
-				console.log("Request Failed: " + err);
+				alert(error);
 			}
 		});
 	} else alert("Preencha todos os campos para cadastrar");
