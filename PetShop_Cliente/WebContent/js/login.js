@@ -30,11 +30,7 @@ function gerenciaLogin() {
 	show("li-login", (getCookie("userCurrent") == null));
 	show("li-logout", (getCookie("userCurrent") != null));
 	show("li-cadastrar", (getCookie("userCurrent") == null));
-	if (getCookie("userCurrent") != null)
-		show(
-				"cadastrarAnimal",
-				JSON.parse(getCookie("userCurrent")).perfilAcesso == "Instituicao");
-}
+	}
 
 function logout() {
 	deleteCookie("userCurrent");

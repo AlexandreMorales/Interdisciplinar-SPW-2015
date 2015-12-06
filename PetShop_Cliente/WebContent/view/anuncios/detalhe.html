@@ -1,0 +1,64 @@
+<script src="/PetShop_Cliente/js/Xandelier.js"></script>
+<script src="/PetShop_Cliente/js/login.js"></script>
+<script src="/PetShop_Cliente/js/Layout.js"></script>
+<script>
+	getLayout(function() {
+		AjaxPuro({
+			_path : "anuncios",
+			_arguments : window.location.search.substring(1),
+			_done : function(data) {
+				document.title = "Detalhes do " + data.tipo + " "
+						+ data.nomeAdotivo;
+				getElement(".anuncioAtt").forEach(function(el) {
+					if (el.type === "checkbox")
+						el.checked = data[el.id];
+					else
+						el.value = data[el.id];
+					el.toggleAttribute("disabled", "disabled");
+				});
+				
+				getElement("#animal").value = data.animal.codigo;
+		    	getElement("#animal").toggleAttribute("disabled", "disabled");
+		    	getElement("#instituicao").value = data.instituicao.nome;
+		    	getElement("#instituicao").toggleAttribute("disabled", "disabled");
+		    
+			},
+			_error : function(request, textStatus, error) {
+				var err = textStatus + ", " + error;
+				console.log("Request Failed: " + err);
+			}
+		});
+	});
+</script>
+
+	<div class="form-horizontal">
+	<div class="form-group">
+		<label class="control-label col-lg-4" for="codigo"> Código do Animal: </label>
+		<div class="col-lg-4">
+			<input id="animal" type="text" class="form-control" />
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="control-label col-lg-4" for="codigo"> Nome da Instituição: </label>
+		<div class="col-lg-4">
+			<input id="instituicao" type="text" class="form-control" />
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="control-label col-lg-4" for="nomeAdotivo"> Descrição: </label>
+		<div class="col-lg-4">
+			<textarea id="descricao" type="text" class="form-control anuncioAtt"></textarea>
+		</div>
+	</div>
+	</div>
+
+	<div class="form-horizontal">
+		<div class="form-group">
+			<div class="col-lg-3"></div>
+			<div class="col-lg-5">
+				<button class="btn btn-default btn-lg btn-block btn-primary"
+					onclick="history.back()">Voltar</button>
+			</div>
+		</div>
+	</div>
+</div>

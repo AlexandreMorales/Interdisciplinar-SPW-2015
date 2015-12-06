@@ -1,0 +1,100 @@
+<script src="/PetShop_Cliente/js/Xandelier.js"></script>
+<script src="/PetShop_Cliente/js/login.js"></script>
+<script src="/PetShop_Cliente/js/Layout.js"></script>
+<script>
+var instituicaoId;
+var animal;
+getLayout(function(){
+	AjaxPuro({
+	    _type: "GET",
+	    _path: "instituicoes/usuario",
+	    _arguments: JSON.parse(getCookie("userCurrent")).id,
+	    _done: function (data) {
+	    	instituicaoId = data;
+	    },
+	    _error: function (request, textStatus, error) {
+	        var err = textStatus + ", " + error;
+	        console.log("Request Failed: " + err);
+	    }
+	});	
+	
+	AjaxPuro({
+	    _type: "GET",
+	    _path: "animais",
+	    _arguments: location.search.split('id=')[1],
+	    _done: function (data) {
+	    	animal = data;
+	    	getElement("#animal").value = animal.codigo;
+	    	getElement("#animal").toggleAttribute("disabled", "disabled");
+	    },
+	    _error: function (request, textStatus, error) {
+	        var err = textStatus + ", " + error;
+	        console.log("Request Failed: " + err);
+	    }
+	});	
+	
+	document.title = "Cadastrar novo Animal";
+	getElement("#Enviar").addEventListener("click", Cadastrar);
+});
+</script>
+
+
+
+<div class="form-horizontal">
+
+	<div class="form-group">
+		<div class="col-lg-4"></div>
+		<div class="col-lg-4">
+		<h1>Cadastro de Anuncio:</h1>
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label class="control-label col-lg-4" for="codigo"> Código do Animal: </label>
+		<div class="col-lg-4">
+			<input id="animal" type="text" class="form-control" />
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="control-label col-lg-4" for="nomeAdotivo"> Descrição: </label>
+		<div class="col-lg-4">
+			<textarea id="descricao" type="text" class="form-control anuncioAtt"></textarea>
+		</div>
+	</div>
+	
+	<div class="form-group">
+		<div class="col-lg-4"></div>
+		<div class="col-lg-4">
+			<button class="btn btn-default btn-lg btn-block btn-primary"
+				id="Enviar">Enviar</button>
+		</div>
+	</div>
+</div>
+
+<script>
+function Cadastrar() {
+	if (!getElement(".anuncioAtt").some(d => d.value==="")) {
+		var anuncio = {instituicao: instituicaoId};
+		anuncio.animal = animal;
+		getElement(".anuncioAtt").forEach(function(el){
+			anuncio[el.id] = (el.type === "checkbox") ? el.checked : 
+			(el.type === "number" || el.tagName === "SELECT") ? parseFloat(el.value) : el.value;
+		});		
+		
+		console.log(anuncio);
+		AjaxPuro({
+			_type: "POST",
+			_path: "anuncios",
+			_arguments: JSON.stringify(anuncio),
+			_done: function (data) {
+				alert(data);
+				window.location.href = "home.html";
+			},
+			_error: function (request, textStatus, error) {
+				var err = textStatus + ", " + error;
+				console.log("Request Failed: " + err);
+			}
+		});
+	} else alert("Preencha todos os campos para cadastrar");
+};
+</script>

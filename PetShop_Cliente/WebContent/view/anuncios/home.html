@@ -1,0 +1,75 @@
+<script src="/PetShop_Cliente/js/Xandelier.js"></script>
+<script src="/PetShop_Cliente/js/login.js"></script>
+<script src="/PetShop_Cliente/js/Layout.js"></script>
+<script>
+var anuncios; 
+getLayout(function(){
+	document.title = "Visualizar Anuncios";
+	var currentUser = JSON.parse(getCookie("userCurrent"));
+	var instituicao = currentUser ? currentUser.perfilAcesso == "Instituicao" : false;
+	AjaxPuro({
+		_path : "anuncios/todos",
+		_done : function(data) {
+			anuncios = data;
+			data.forEach(a => 
+			getElement("#tableAnuncio:tbody")[0].append(document.createElement("tr")
+					.append(document.createElement("td").config({innerHTML: a.animal.codigo}))
+					.append(document.createElement("td").config({innerHTML: a.animal.nomeAdotivo}))
+					.append(document.createElement("td").config({innerHTML: a.animal.tipo}))
+					.append(document.createElement("td").config({innerHTML: a.animal.genero}))
+					.append(document.createElement("td").config({innerHTML: a.animal.idade}))
+					.append(document.createElement("td").config({innerHTML: a.animal.raca}))
+					.append(document.createElement("td").config({innerHTML: a.instituicao.nome}))
+					.append(document.createElement("td").config({
+						innerHTML: "<a class='btn btn-default' href='detalhe.html?"+a.id+"'>Detalhes</a> "+ 
+							       "<button class='btn btn-default apagar-anuncio' onclick='apagarAnuncio("+a.id+")'>Apagar</button>"
+						}))));
+		
+			getElement(".apagar-anuncio").forEach(function(el){
+				show(el, getCookie("userCurrent")!=null ? JSON.parse(getCookie("userCurrent")).perfilAcesso == "Instituicao" : false);
+			});
+		},
+		_error : function(request, textStatus, error) {
+			var err = textStatus + ", " + error;
+			console.log("Request Failed: " + err);
+		}
+	});
+});
+	
+function apagarAnuncio(id){
+	var anuncio = anuncios.filter(a => a.id == id)[0];
+	var confirma = confirm("Deseja apagar o anuncio "+anuncio.id+"?");
+	if(confirma){
+		AjaxPuro({
+		    _type: "DELETE",
+		    _path: "anuncios",
+		    _arguments: id,
+		    _done: function (data) {
+		        alert(data);
+		        location.reload();
+		    },
+		    _error: function (request, textStatus, error) {
+		        var err = textStatus + ", " + error;
+		        console.log("Request Failed: " + err);
+		    }
+		});
+	}
+};
+</script>
+	<table class="table" id="tableAnuncio">
+		<thead>
+			<tr>
+				<th>Código</th>
+				<th>Nome Adotivo</th>
+				<th>Tipo</th>
+				<th>Gênero</th>
+				<th>Idade</th>
+				<th>Raça</th>
+				<th>Instituição</th>
+				<th>Ações</th>
+			</tr>
+		</thead>
+		<tbody>
+		</tbody>
+	</table>
+</div>

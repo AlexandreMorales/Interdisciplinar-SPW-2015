@@ -7,6 +7,12 @@ getLayout(function(){
 	document.title = "Visualizar Animal";
 	var currentUser = JSON.parse(getCookie("userCurrent"));
 	var instituicao = currentUser ? currentUser.perfilAcesso == "Instituicao" : false;
+	
+	if (getCookie("userCurrent") != null)
+		show("cadastrarAnimal",
+				JSON.parse(getCookie("userCurrent")).perfilAcesso == "Instituicao");
+
+	
 	AjaxPuro({
 		_path : "animais/"+(instituicao ? "instituicao" : "disponiveis"),
 		_arguments: instituicao ? currentUser.id : undefined,

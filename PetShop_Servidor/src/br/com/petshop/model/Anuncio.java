@@ -22,6 +22,9 @@ public class Anuncio {
 	private Animal animal;
 	private String Descricao;
 	
+	public Anuncio(){
+		super();
+	}
 	public Anuncio(int id, Instituicao instituicao, Animal animal,
 			String descricao) {
 		super();
