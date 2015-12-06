@@ -1,29 +1,11 @@
 <script src="/PetShop_Cliente/js/Xandelier.js"></script>
 <script src="/PetShop_Cliente/js/login.js"></script>
+<script src="/PetShop_Cliente/js/Layout.js"></script>
 <script>
 var animais; 
-	window.onload = function() {						
-		var container = document.documentElement.innerHTML;
-		window.rooturl = "/PetShop_Cliente/";
-		AjaxPuro({
-			_path : "view/Home/home.html",
-			_done : function(data) {
-				document.documentElement.innerHTML = data;
-				document.title = "Visualizar Animal";
-				getElement("#container").innerHTML = container;
-				criaTable();
-				gerenciaLogin();
-			},
-			_error : function(request, textStatus, error) {
-				var err = textStatus + ", " + error;
-				console.log("Request Failed: " + err);
-			}
-		});
-		window.rooturl = "/PetShop_Servidor/";
-	}
-	
-	function criaTable(){
-		AjaxPuro({
+getLayout(function(){
+	document.title = "Visualizar Animal";
+	AjaxPuro({
 			_path : "animais/todos",
 			_done : function(data) {
 				animais = data;
@@ -46,7 +28,7 @@ var animais;
 				console.log("Request Failed: " + err);
 			}
 		});
-	};
+	});
 	
 	function apagarAnimal(id){
 		var animal = animais.filter(a => a.id == id)[0];
@@ -71,26 +53,26 @@ var animais;
 
 <div class="form-horizontal">
 	<div class="form-group">
-	<div class="col-lg-3"></div>
+		<div class="col-lg-3"></div>
 		<div class="col-lg-5">
 			<a class="btn btn-default btn-lg btn-block btn-primary"
-				 href="create.html">Cadastrar novo Animal</a>
+				href="create.html">Cadastrar novo Animal</a>
 		</div>
 	</div>
-	
-<table class="table" id="tableAnimal">
-	<thead>
-		<tr>
-			<th>Código</th>
-			<th>Nome Adotivo</th>
-			<th>Tipo</th>
-			<th>Gênero</th>
-			<th>Idade</th>
-			<th>Raça</th>
-			<th>Disponibilidade</th>
-			<th>Ações</th>
-		</tr>
-	</thead>
-	<tbody>
-	</tbody>
-</table>
+
+	<table class="table" id="tableAnimal">
+		<thead>
+			<tr>
+				<th>Código</th>
+				<th>Nome Adotivo</th>
+				<th>Tipo</th>
+				<th>Gênero</th>
+				<th>Idade</th>
+				<th>Raça</th>
+				<th>Disponibilidade</th>
+				<th>Ações</th>
+			</tr>
+		</thead>
+		<tbody>
+		</tbody>
+	</table>

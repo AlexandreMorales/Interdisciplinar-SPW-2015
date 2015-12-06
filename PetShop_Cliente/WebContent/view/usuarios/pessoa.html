@@ -1,27 +1,11 @@
 <script src="/PetShop_Cliente/js/Xandelier.js"></script>
 <script src="/PetShop_Cliente/js/login.js"></script>
+<script src="/PetShop_Cliente/js/Layout.js"></script>
 <script>
-window.onload = function(){
-	
-	var container = document.documentElement.innerHTML;
-	window.rooturl = "/PetShop_Cliente/";
-	AjaxPuro({
-	    _path: "view/Home/home.html",
-	    _done: function (data) {
-	    	document.documentElement.innerHTML = data;
-	    	document.title = "Cadastrar nova Pessoa";
-	    	getElement("#container").innerHTML = container;
-	    	getElement("#Enviar").addEventListener("click", Cadastrar);
-	    	gerenciaLogin();
-	    },
-	    _error: function (request, textStatus, error) {
-	        var err = textStatus + ", " + error;
-	        console.log("Request Failed: " + err);
-	    }		
-	});
-	window.rooturl = "/PetShop_Servidor/";
-
-}
+getLayout(function(){
+	document.title = "Cadastrar nova Pessoa";
+	getElement("#Enviar").addEventListener("click", Cadastrar);
+});
 </script>
 
 

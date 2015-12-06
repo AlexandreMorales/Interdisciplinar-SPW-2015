@@ -1,27 +1,13 @@
 <script src="/PetShop_Cliente/js/Xandelier.js"></script>
 <script src="/PetShop_Cliente/js/Facebook.js"></script>
 <script src="/PetShop_Cliente/js/login.js"></script>
+<script src="/PetShop_Cliente/js/Layout.js"></script>
 <script>
-window.onload = function(){
+getLayout(function(){
 	ExecFacebook();
-	var container = document.documentElement.innerHTML;
-	window.rooturl = "/PetShop_Cliente/";
-	AjaxPuro({
-	    _path: "view/Home/home.html",
-	    _done: function (data) {
-	    	document.documentElement.innerHTML = data;
-	    	document.title = "Login";
-	    	getElement("#container").innerHTML = container;
-	    	getElement("#Enviar").addEventListener("click", Logar);
-	    	gerenciaLogin();
-	    },
-	    _error: function (request, textStatus, error) {
-	        var err = textStatus + ", " + error;
-	        console.log("Request Failed: " + err);
-	    }		
-	});
-	window.rooturl = "/PetShop_Servidor/";
-}
+	document.title = "Login";
+	getElement("#Enviar").addEventListener("click", Logar);
+});
 </script>
 
 <div class="form-horizontal">

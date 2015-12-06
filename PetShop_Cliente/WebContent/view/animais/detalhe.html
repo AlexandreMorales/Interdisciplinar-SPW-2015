@@ -1,29 +1,11 @@
 <script src="/PetShop_Cliente/js/Xandelier.js"></script>
 <script src="/PetShop_Cliente/js/login.js"></script>
+<script src="/PetShop_Cliente/js/Layout.js"></script>
 <script>
-window.onload = function(){
-	var container = document.documentElement.innerHTML;
-	window.rooturl = "/PetShop_Cliente/";
-	AjaxPuro({
-	    _path: "view/Home/home.html",
-	    _done: function (data) {
-	    	document.documentElement.innerHTML = data;
-	    	getElement("#container").innerHTML = container;
-	    	carregaAnimal(window.location.search.substring(1));
-	    	gerenciaLogin();
-	    },
-	    _error: function (request, textStatus, error) {
-	        var err = textStatus + ", " + error;
-	        console.log("Request Failed: " + err);
-	    }		
-	});
-	window.rooturl = "/PetShop_Servidor/";
-}
-
-function carregaAnimal(id){
+getLayout(function(){
 	AjaxPuro({
 		_path : "animais",
-		_arguments : id,
+		_arguments : window.location.search.substring(1),
 		_done : function(data) {
 	    	document.title = "Detalhes do "+data.tipo+" "+data.nomeAdotivo;
 			getElement(".animalAtt").forEach(function(el){
@@ -39,7 +21,7 @@ function carregaAnimal(id){
 			console.log("Request Failed: " + err);
 		}
 	});
-};
+});
 </script>
 
 <div class="form-horizontal">
