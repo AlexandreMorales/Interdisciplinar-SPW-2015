@@ -1,5 +1,6 @@
 <script src="/PetShop_Cliente/js/Xandelier.js"></script>
 <script src="/PetShop_Cliente/js/Facebook.js"></script>
+<script src="/PetShop_Cliente/js/login.js"></script>
 <script>
 window.onload = function(){
 	ExecFacebook();
@@ -12,6 +13,7 @@ window.onload = function(){
 	    	document.title = "Cadastrar novo Usuário";
 	    	getElement("#container").innerHTML = container;
 	    	getElement("#Enviar").addEventListener("click", Cadastrar);
+	    	gerenciaLogin();
 	    },
 	    _error: function (request, textStatus, error) {
 	        var err = textStatus + ", " + error;
