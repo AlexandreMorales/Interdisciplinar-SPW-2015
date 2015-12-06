@@ -7,9 +7,7 @@ window.onload = function(){
 	    _path: "view/Home/home.html",
 	    _done: function (data) {
 	    	document.documentElement.innerHTML = data;
-	    	document.title = "Cadastrar novo Animal";
 	    	getElement("#container").innerHTML = container;
-	    	
 	    	carregaAnimal(window.location.search.substring(1));
 	    },
 	    _error: function (request, textStatus, error) {
@@ -25,6 +23,7 @@ function carregaAnimal(id){
 		_path : "animais",
 		_arguments : id,
 		_done : function(data) {
+	    	document.title = "Detalhes do "+data.tipo+" "+data.nomeAdotivo;
 			getElement(".animalAtt").forEach(function(el){
 				if(el.type === "checkbox")
 					el.checked = data[el.id];
