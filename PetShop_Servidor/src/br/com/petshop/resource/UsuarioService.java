@@ -34,6 +34,7 @@ public class UsuarioService {
 		@Path("/autenticar")
 		@Produces("application/json")
 		public Response autenticarUsuario(Usuario usuario) {
+			usuario.setSenha(Integer.toString(usuario.getSenha().hashCode()));
 			Usuario result = UsuarioDao.getUsuario(usuario);
 			if(result != null){
 				return Response.status(200).entity(result).build();
@@ -45,6 +46,7 @@ public class UsuarioService {
 		@POST
 		@Consumes("application/json")
 		public Response criarUsuario(Usuario Usuario) {
+			Usuario.setSenha(Integer.toString(Usuario.getSenha().hashCode()));
 			try {
 				if(UsuarioDao.getByEmail(Usuario.getEmail())==null){
 					UsuarioDao.saveUsuario(Usuario);

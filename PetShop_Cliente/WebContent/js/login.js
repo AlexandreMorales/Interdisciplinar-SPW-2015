@@ -26,11 +26,20 @@ function deleteCookie(name) {
 }
 
 function gerenciaLogin() {
-	getElement("#li-logout").addEventListener("click", logout);
-	show("li-login", (getCookie("userCurrent") == null));
-	show("li-logout", (getCookie("userCurrent") != null));
-	show("li-cadastrar", (getCookie("userCurrent") == null));
+	var currentUser = getCookie("userCurrent");
+	if (currentUser) {
+		show("li-cadastrar", false);
+		show("li-login", false);
+		getElement("#li-logout").addEventListener("click", logout);
+		show("cadastrarAnimal",
+				JSON.parse(currentUser).perfilAcesso == "Instituicao");
+	} else {
+		show("li-logout", false);
+		show("li-animais", false);
+		show("li-instituicoes", false);
+		show("li-usuarios", false);
 	}
+}
 
 function logout() {
 	deleteCookie("userCurrent");
