@@ -39,6 +39,8 @@ function deleteCookie(name) {
 }
 
 function gerenciaLogin(){
+	getElement("#li-logout").addEventListener("click", logout);
+	
 	if(getCookie("userCurrent")!=null){
 		show("li-login",false);
 		show("li-logout",true);
@@ -46,4 +48,8 @@ function gerenciaLogin(){
 		show("li-login",true);
 		show("li-logout",false);
 	}
+}
+
+function logout(){
+	deleteCookie("userCurrent");
 }
