@@ -56,30 +56,25 @@ getLayout(function(){
 
 <script>
 function Cadastrar() {
-		if (!getElement(".usuarioAtt").some(d => d.value==="")) {
-			var usuario = {};
-			getElement(".usuarioAtt").forEach(function(el){
-				usuario[el.id] = (el.type === "checkbox") ? el.checked : 
-					(el.type === "number" || el.tagName === "SELECT") ? parseFloat(el.value) : el.value;
-			});
-			console.log(usuario);
-			AjaxPuro({
-			    _type: "POST",
-			    _path: "usuarios",
-			    _arguments: JSON.stringify(usuario),
-			    _done: function (data) {
-			    	if(usuario.perfilAcesso==0){
-			    		window.location.href = "pessoa.html?id="+data;
-			    	}else{
-			    		window.location.href = "instituicao.html?id="+data;
-			    	}
-			        
-			    },
-			    _error: function (request, textStatus, error) {
-			        var err = textStatus + ", " + error;
-			        alert("Request Failed: " + err);
-			    }
-			});
-		} else alert("Preencha todos os campos para cadastrar");
-	};
+	if (!getElement(".usuarioAtt").some(d => d.value==="")) {
+		var usuario = {};
+		getElement(".usuarioAtt").forEach(function(el){
+			usuario[el.id] = (el.type === "checkbox") ? el.checked : 
+				(el.type === "number" || el.tagName === "SELECT") ? 
+						parseFloat(el.value) : el.value;
+		});		
+		AjaxPuro({
+			_type: "POST",
+			_path: "usuarios",
+			_arguments: JSON.stringify(usuario),
+			_done: function (data) {
+				window.location.href = ((usuario.perfilAcesso==0) ? "pessoa.html?id=" : "instituicao.html?id=")+data;
+			},
+			_error: function (request, textStatus, error) {
+				var err = textStatus + ", " + error;
+				console.log("Request Failed: " + err);
+			}
+		});
+	} else alert("Preencha todos os campos para cadastrar");
+};
 </script>

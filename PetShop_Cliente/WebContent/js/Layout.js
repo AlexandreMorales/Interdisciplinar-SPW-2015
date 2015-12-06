@@ -1,5 +1,5 @@
-function getLayout(fDone){
-	window.onload = function() {						
+function getLayout(fDone) {
+	window.onload = function() {
 		var container = document.documentElement.innerHTML;
 		window.rooturl = "/PetShop_Cliente/";
 		AjaxPuro({
@@ -8,7 +8,7 @@ function getLayout(fDone){
 				document.documentElement.innerHTML = data;
 				getElement("#container").innerHTML = container;
 				gerenciaLogin();
-				if(fDone)
+				if (fDone)
 					fDone();
 			},
 			_error : function(request, textStatus, error) {

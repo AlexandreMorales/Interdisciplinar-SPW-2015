@@ -2,7 +2,20 @@
 <script src="/PetShop_Cliente/js/login.js"></script>
 <script src="/PetShop_Cliente/js/Layout.js"></script>
 <script>
+var instituicaoId;
 getLayout(function(){
+	AjaxPuro({
+	    _type: "GET",
+	    _path: "instituicoes/usuario",
+	    _arguments: JSON.parse(getCookie("userCurrent")).id,
+	    _done: function (data) {
+	    	instituicaoId = data;
+	    },
+	    _error: function (request, textStatus, error) {
+	        var err = textStatus + ", " + error;
+	        console.log("Request Failed: " + err);
+	    }
+	});	
 	document.title = "Cadastrar novo Animal";
 	getElement("#Enviar").addEventListener("click", Cadastrar);
 });
@@ -81,42 +94,25 @@ getLayout(function(){
 
 <script>
 function Cadastrar() {
-		if (!getElement(".animalAtt").some(d => d.value==="")) {
-			var animal = {};
-			getElement(".animalAtt").forEach(function(el){
-				animal[el.id] = (el.type === "checkbox") ? el.checked : 
-					(el.type === "number" || el.tagName === "SELECT") ? parseFloat(el.value) : el.value;
-			});
-			
-			
-			AjaxPuro({
-			    _type: "GET",
-			    _path: "instituicoes/usuario",
-			    _arguments: JSON.parse(getCookie("userCurrent")).id,
-			    _done: function (data) {
-			    	animal.instituicao = data;
-			    	AjaxPuro({
-					    _type: "POST",
-					    _path: "animais",
-					    _arguments: JSON.stringify(animal),
-					    _done: function (data) {
-					        alert(data);
-					        window.location.href = "home.html";
-					    },
-					    _error: function (request, textStatus, error) {
-					        var err = textStatus + ", " + error;
-					        console.log("Request Failed: " + err);
-					    }
-					});
-			    },
-			    _error: function (request, textStatus, error) {
-			        var err = textStatus + ", " + error;
-			        console.log("Request Failed: " + err);
-			    }
-			});
-			
-			
-			
-		} else alert("Preencha todos os campos para cadastrar");
-	};
+	if (!getElement(".animalAtt").some(d => d.value==="")) {
+		var animal = {instituicao: instituicaoId};
+		getElement(".animalAtt").forEach(function(el){
+			animal[el.id] = (el.type === "checkbox") ? el.checked : 
+			(el.type === "number" || el.tagName === "SELECT") ? parseFloat(el.value) : el.value;
+		});		
+		AjaxPuro({
+			_type: "POST",
+			_path: "animais",
+			_arguments: JSON.stringify(animal),
+			_done: function (data) {
+				alert(data);
+				window.location.href = "home.html";
+			},
+			_error: function (request, textStatus, error) {
+				var err = textStatus + ", " + error;
+				console.log("Request Failed: " + err);
+			}
+		});
+	} else alert("Preencha todos os campos para cadastrar");
+};
 </script>

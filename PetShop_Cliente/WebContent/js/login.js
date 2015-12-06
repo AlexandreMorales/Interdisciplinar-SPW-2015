@@ -1,54 +1,41 @@
 function setCookie(name, value, duration) {
-        var cookie = name + "=" + value +
-        ((duration) ? "; duration=" + duration.toGMTString() : "") + "; path=/PetShop_Cliente/view/";
- 
-        document.cookie = cookie;
+	document.cookie = name + "=" + value
+			+ (duration ? "; duration=" + duration.toGMTString() : "")
+			+ "; path=/PetShop_Cliente/view/";
 }
 
 function getCookie(name) {
-    var cookies = document.cookie;
-    var prefix = name + "=";
-    var begin = cookies.indexOf("; " + prefix);
- 
-    if (begin == -1) {
- 
-        begin = cookies.indexOf(prefix);
-         
-        if (begin != 0) {
-            return null;
-        }
- 
-    } else {
-        begin += 2;
-    }
- 
-    var end = cookies.indexOf(";", begin);
-     
-    if (end == -1) {
-        end = cookies.length;                        
-    }
- 
-    return unescape(cookies.substring(begin + prefix.length, end));
+	var cookies = document.cookie, prefix = name + "=", begin = cookies
+			.indexOf("; " + prefix);
+
+	if (begin == -1) {
+		begin = cookies.indexOf(prefix);
+		if (begin != 0)
+			return null;
+	} else
+		begin += 2;
+
+	return unescape(cookies.substring(begin + prefix.length, (cookies.indexOf(
+			";", begin) == -1) ? cookies.length : cookies.indexOf(";", begin)));
 }
 
 function deleteCookie(name) {
-    if (getCookie(name)) {
-           document.cookie = name + "=" +
-           "; expires=Thu, 01-Jan-70 00:00:01 GMT" + "; path=/PetShop_Cliente/view/";
-    }
+	if (getCookie(name))
+		document.cookie = name + "=" + "; expires=Thu, 01-Jan-70 00:00:01 GMT"
+				+ "; path=/PetShop_Cliente/view/";
 }
 
-function gerenciaLogin(){
+function gerenciaLogin() {
 	getElement("#li-logout").addEventListener("click", logout);
-	show("li-login", (getCookie("userCurrent")==null));
-	show("li-logout", (getCookie("userCurrent")!=null));
-	show("li-cadastrar", (getCookie("userCurrent")==null));	
-	
-	if(getCookie("userCurrent")!=null){
-		show("cadastrarAnimal", JSON.parse(getCookie("userCurrent")).perfilAcesso=="Instituicao");
-	}
+	show("li-login", (getCookie("userCurrent") == null));
+	show("li-logout", (getCookie("userCurrent") != null));
+	show("li-cadastrar", (getCookie("userCurrent") == null));
+	if (getCookie("userCurrent") != null)
+		show(
+				"cadastrarAnimal",
+				JSON.parse(getCookie("userCurrent")).perfilAcesso == "Instituicao");
 }
 
-function logout(){
+function logout() {
 	deleteCookie("userCurrent");
 }

@@ -2,26 +2,27 @@
 <script src="/PetShop_Cliente/js/login.js"></script>
 <script src="/PetShop_Cliente/js/Layout.js"></script>
 <script>
-getLayout(function(){
-	AjaxPuro({
-		_path : "animais",
-		_arguments : window.location.search.substring(1),
-		_done : function(data) {
-	    	document.title = "Detalhes do "+data.tipo+" "+data.nomeAdotivo;
-			getElement(".animalAtt").forEach(function(el){
-				if(el.type === "checkbox")
-					el.checked = data[el.id];
-				else
-					el.value = data[el.id];
-				el.toggleAttribute("disabled", "disabled");
-			});
-		},
-		_error : function(request, textStatus, error) {
-			var err = textStatus + ", " + error;
-			console.log("Request Failed: " + err);
-		}
+	getLayout(function() {
+		AjaxPuro({
+			_path : "animais",
+			_arguments : window.location.search.substring(1),
+			_done : function(data) {
+				document.title = "Detalhes do " + data.tipo + " "
+						+ data.nomeAdotivo;
+				getElement(".animalAtt").forEach(function(el) {
+					if (el.type === "checkbox")
+						el.checked = data[el.id];
+					else
+						el.value = data[el.id];
+					el.toggleAttribute("disabled", "disabled");
+				});
+			},
+			_error : function(request, textStatus, error) {
+				var err = textStatus + ", " + error;
+				console.log("Request Failed: " + err);
+			}
+		});
 	});
-});
 </script>
 
 <div class="form-horizontal">
@@ -76,13 +77,14 @@ getLayout(function(){
 				style="margin-left: 0px;" />
 		</div>
 	</div>
-	
+
 	<div class="form-horizontal">
-	<div class="form-group">
-	<div class="col-lg-3"></div>
-		<div class="col-lg-5">
-			<a class="btn btn-default btn-lg btn-block btn-primary"
-				 href="home.html">Voltar</a>
+		<div class="form-group">
+			<div class="col-lg-3"></div>
+			<div class="col-lg-5">
+				<button class="btn btn-default btn-lg btn-block btn-primary"
+					onclick="history.back()">Voltar</button>
+			</div>
 		</div>
 	</div>
 </div>

@@ -8,16 +8,14 @@ getLayout(function(){
 });
 </script>
 
-
 <div class="form-horizontal">
-
 	<div class="form-group">
 		<div class="col-lg-4"></div>
 		<div class="col-lg-6">
-		<h1>Cadastro de Instituição:</h1>
+			<h1>Cadastro de Instituição:</h1>
 		</div>
 	</div>
-	
+
 	<div class="form-group">
 		<label class="control-label col-lg-4" for="codigo"> Codigo: </label>
 		<div class="col-lg-4">
@@ -37,18 +35,20 @@ getLayout(function(){
 		</div>
 	</div>
 	<div class="form-group">
-		<label class="control-label col-lg-4" for="endereco"> Endereco: </label>
+		<label class="control-label col-lg-4" for="endereco">
+			Endereco: </label>
 		<div class="col-lg-4">
 			<input id="endereco" type="text" class="form-control instituicaoAtt" />
 		</div>
 	</div>
 	<div class="form-group">
-		<label class="control-label col-lg-4" for="telefone"> Telefone: </label>
+		<label class="control-label col-lg-4" for="telefone">
+			Telefone: </label>
 		<div class="col-lg-4">
 			<input id="telefone" type="text" class="form-control instituicaoAtt" />
 		</div>
 	</div>
-		<div class="form-group">
+	<div class="form-group">
 		<label class="control-label col-lg-4" for="email"> Email: </label>
 		<div class="col-lg-4">
 			<input id="email" type="text" class="form-control instituicaoAtt" />
@@ -63,7 +63,7 @@ getLayout(function(){
 				<option value="2">Ambos</option>
 			</select>
 		</div>
-	</div>	
+	</div>
 	<div class="form-group">
 		<div class="col-lg-4"></div>
 		<div class="col-lg-4">
@@ -75,28 +75,26 @@ getLayout(function(){
 
 <script>
 function Cadastrar() {
-		if (!getElement(".instituicaoAtt").some(d => d.value==="")) {
-			var instituicao = {};
-			getElement(".instituicaoAtt").forEach(function(el){
-				instituicao[el.id] = (el.type === "checkbox") ? el.checked : 
-					(el.type === "number" || el.tagName === "SELECT") ? parseFloat(el.value) : el.value;
-			});
-			
-			instituicao.usuario = { "id":location.search.split('id=')[1]};
-			
-			AjaxPuro({
-			    _type: "POST",
-			    _path: "instituicoes",
-			    _arguments: JSON.stringify(instituicao),
-			    _done: function (data) {
-			    	 alert(data);
-				     window.location.href = "../home/home.html";
-			    },
-			    _error: function (request, textStatus, error) {
-			        var err = textStatus + ", " + error;
-			        console.log("Request Failed: " + err);
-			    }
-			});
-		} else alert("Preencha todos os campos para cadastrar");
-	};
+	if (!getElement(".instituicaoAtt").some(d => d.value==="")) {
+		var instituicao = {usuario: { "id":location.search.split('id=')[1]}};
+		getElement(".instituicaoAtt").forEach(function(el){
+			instituicao[el.id] = (el.type === "checkbox") ? el.checked : 
+				(el.type === "number" || el.tagName === "SELECT") ? parseFloat(el.value) : el.value;
+		});
+		
+		AjaxPuro({
+		    _type: "POST",
+		    _path: "instituicoes",
+		    _arguments: JSON.stringify(instituicao),
+		    _done: function (data) {
+		    	 alert(data);
+			     window.location.href = "../home/home.html";
+		    },
+		    _error: function (request, textStatus, error) {
+		        var err = textStatus + ", " + error;
+		        console.log("Request Failed: " + err);
+		    }
+		});
+	} else alert("Preencha todos os campos para cadastrar");
+};
 </script>

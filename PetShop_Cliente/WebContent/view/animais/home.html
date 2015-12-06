@@ -5,79 +5,52 @@
 var animais; 
 getLayout(function(){
 	document.title = "Visualizar Animal";
-	
-	if(JSON.parse(getCookie("userCurrent")).perfilAcesso == "Instituicao"){
-		AjaxPuro({
-			_path : "animais/instituicao",
-			_arguments: JSON.parse(getCookie("userCurrent")).id,
-			_done : function(data) {
-				animais = data;
-				data.forEach(a => 
-				getElement("#tableAnimal:tbody")[0].append(document.createElement("tr")
-						.append(document.createElement("td").config({innerHTML: a.codigo}))
-						.append(document.createElement("td").config({innerHTML: a.nomeAdotivo}))
-						.append(document.createElement("td").config({innerHTML: a.tipo}))
-						.append(document.createElement("td").config({innerHTML: a.genero}))
-						.append(document.createElement("td").config({innerHTML: a.idade}))
-						.append(document.createElement("td").config({innerHTML: a.raca}))
-						.append(document.createElement("td").config({innerHTML: a.disponivel ? "Disponível" : "Não Disponível"}))
-						.append(document.createElement("td").config({
-							innerHTML: "<a class='btn btn-default' href='detalhe.html?"+a.id+"'>Detalhes</a> "+ 
-								       "<button class='btn btn-default' onclick='apagarAnimal("+a.id+")'>Apagar</button>"
-							}))));
-			},
-			_error : function(request, textStatus, error) {
-				var err = textStatus + ", " + error;
-				console.log("Request Failed: " + err);
-			}
-		});
-	}else{
-		AjaxPuro({
-				_path : "animais/disponiveis",
-				_done : function(data) {
-					animais = data;
-					data.forEach(a => 
-					getElement("#tableAnimal:tbody")[0].append(document.createElement("tr")
-							.append(document.createElement("td").config({innerHTML: a.codigo}))
-							.append(document.createElement("td").config({innerHTML: a.nomeAdotivo}))
-							.append(document.createElement("td").config({innerHTML: a.tipo}))
-							.append(document.createElement("td").config({innerHTML: a.genero}))
-							.append(document.createElement("td").config({innerHTML: a.idade}))
-							.append(document.createElement("td").config({innerHTML: a.raca}))
-							.append(document.createElement("td").config({innerHTML: a.disponivel ? "Disponível" : "Não Disponível"}))
-							.append(document.createElement("td").config({
-								innerHTML: "<a class='btn btn-default' href='detalhe.html?"+a.id+"'>Detalhes</a> "+ 
-									       "<button class='btn btn-default' onclick='apagarAnimal("+a.id+")'>Apagar</button>"
-								}))));
-				},
-				_error : function(request, textStatus, error) {
-					var err = textStatus + ", " + error;
-					console.log("Request Failed: " + err);
-				}
-			});
-	}
-	
-	});
-	
-	function apagarAnimal(id){
-		var animal = animais.filter(a => a.id == id)[0];
-		var confirma = confirm("Deseja apagar o "+animal.tipo+" "+animal.nomeAdotivo+"?");
-		if(confirma){
-			AjaxPuro({
-			    _type: "DELETE",
-			    _path: "animais",
-			    _arguments: id,
-			    _done: function (data) {
-			        alert(data);
-			        location.reload();
-			    },
-			    _error: function (request, textStatus, error) {
-			        var err = textStatus + ", " + error;
-			        console.log("Request Failed: " + err);
-			    }
-			});
+	var instituicao = (JSON.parse(getCookie("userCurrent")).perfilAcesso == "Instituicao");
+	AjaxPuro({
+		_path : "animais/"+(instituicao ? "instituicao" : "disponiveis"),
+		_arguments: instituicao ? JSON.parse(getCookie("userCurrent")).id : undefined,
+		_done : function(data) {
+			animais = data;
+			data.forEach(a => 
+			getElement("#tableAnimal:tbody")[0].append(document.createElement("tr")
+					.append(document.createElement("td").config({innerHTML: a.codigo}))
+					.append(document.createElement("td").config({innerHTML: a.nomeAdotivo}))
+					.append(document.createElement("td").config({innerHTML: a.tipo}))
+					.append(document.createElement("td").config({innerHTML: a.genero}))
+					.append(document.createElement("td").config({innerHTML: a.idade}))
+					.append(document.createElement("td").config({innerHTML: a.raca}))
+					.append(document.createElement("td").config({innerHTML: a.disponivel ? "Disponível" : "Não Disponível"}))
+					.append(document.createElement("td").config({
+						innerHTML: "<a class='btn btn-default' href='detalhe.html?"+a.id+"'>Detalhes</a> "+ 
+							       "<button class='btn btn-default' onclick='apagarAnimal("+a.id+")'>Apagar</button>"
+						}))));
+		},
+		_error : function(request, textStatus, error) {
+			var err = textStatus + ", " + error;
+			console.log("Request Failed: " + err);
 		}
-	};
+	});
+});
+	
+function apagarAnimal(id){
+	var animal = animais.filter(a => a.id == id)[0];
+	var confirma = confirm("Deseja apagar o "+animal.tipo+" "+animal.nomeAdotivo+"?");
+	if(confirma){
+		AjaxPuro({
+		    _type: "DELETE",
+		    _path: "animais",
+		    _arguments: id,
+		    _done: function (data) {
+		        alert(data);
+		        location.reload();
+		    },
+		    _error: function (request, textStatus, error) {
+		        var err = textStatus + ", " + error;
+		        console.log("Request Failed: " + err);
+		    }
+		});
+	}
+};
 </script>
 
 <div class="form-horizontal">
@@ -105,3 +78,4 @@ getLayout(function(){
 		<tbody>
 		</tbody>
 	</table>
+</div>
