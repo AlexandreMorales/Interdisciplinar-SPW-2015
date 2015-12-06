@@ -1,4 +1,5 @@
 <script src="/PetShop_Cliente/js/Xandelier.js"></script>
+<script src="/PetShop_Cliente/js/login.js"></script>
 <script>
 window.onload = function(){
 	var container = document.documentElement.innerHTML;
@@ -10,6 +11,7 @@ window.onload = function(){
 	    	document.title = "Cadastrar novo Animal";
 	    	getElement("#container").innerHTML = container;
 	    	getElement("#Enviar").addEventListener("click", Cadastrar);
+	    	gerenciaLogin();
 	    },
 	    _error: function (request, textStatus, error) {
 	        var err = textStatus + ", " + error;

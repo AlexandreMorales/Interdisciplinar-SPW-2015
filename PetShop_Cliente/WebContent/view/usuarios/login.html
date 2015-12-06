@@ -13,6 +13,7 @@ window.onload = function(){
 	    	document.title = "Login";
 	    	getElement("#container").innerHTML = container;
 	    	getElement("#Enviar").addEventListener("click", Logar);
+	    	gerenciaLogin();
 	    },
 	    _error: function (request, textStatus, error) {
 	        var err = textStatus + ", " + error;
@@ -20,7 +21,6 @@ window.onload = function(){
 	    }		
 	});
 	window.rooturl = "/PetShop_Servidor/";
-	gerenciaLogin();
 }
 </script>
 

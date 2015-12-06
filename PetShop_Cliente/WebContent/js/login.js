@@ -39,11 +39,6 @@ function deleteCookie(name) {
 }
 
 function gerenciaLogin(){
-	if(getCookie("userCurrent")!=null){
-		show("li-login",false);
-		show("li-logout",true);
-	}else{
-		show("li-login",true);
-		show("li-logout",false);
-	}
+	show("li-login", (getCookie("userCurrent")==null));
+	show("li-logout", (getCookie("userCurrent")!=null));
 }
