@@ -52,7 +52,12 @@ public class UsuarioService {
 		@Consumes("application/json")
 		public Response criarUsuario(Usuario Usuario) {
 			try {
-				UsuarioDao.saveUsuario(Usuario);
+				if(UsuarioDao.getByEmail(Usuario.getEmail())==null){
+					UsuarioDao.saveUsuario(Usuario);
+				}else{
+					String result = "Email já cadastrado!!";
+					return Response.status(500).entity(result).build();
+				}
 			} catch (Exception e) {
 				String result = "Error: " + e.getMessage();
 				return Response.status(500).entity(result).build();

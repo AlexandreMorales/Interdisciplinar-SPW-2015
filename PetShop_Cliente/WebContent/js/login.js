@@ -42,6 +42,7 @@ function gerenciaLogin(){
 	getElement("#li-logout").addEventListener("click", logout);
 	show("li-login", (getCookie("userCurrent")==null));
 	show("li-logout", (getCookie("userCurrent")!=null));
+	show("li-cadastrar", (getCookie("userCurrent")==null));
 }
 
 function logout(){

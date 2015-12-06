@@ -84,7 +84,20 @@ function Cadastrar() {
 			    _path: "instituicoes/usuario",
 			    _arguments: JSON.parse(getCookie("userCurrent")).id,
 			    _done: function (data) {
-			    	animal.instituicao = {"id": data.id+""};
+			    	animal.instituicao = data;
+			    	AjaxPuro({
+					    _type: "POST",
+					    _path: "animais",
+					    _arguments: JSON.stringify(animal),
+					    _done: function (data) {
+					        alert(data);
+					        window.location.href = "home.html";
+					    },
+					    _error: function (request, textStatus, error) {
+					        var err = textStatus + ", " + error;
+					        console.log("Request Failed: " + err);
+					    }
+					});
 			    },
 			    _error: function (request, textStatus, error) {
 			        var err = textStatus + ", " + error;
@@ -92,21 +105,8 @@ function Cadastrar() {
 			    }
 			});
 			
-			console.log(animal);
 			
-			AjaxPuro({
-			    _type: "POST",
-			    _path: "animais",
-			    _arguments: JSON.stringify(animal),
-			    _done: function (data) {
-			        alert(data);
-			        window.location.href = "home.html";
-			    },
-			    _error: function (request, textStatus, error) {
-			        var err = textStatus + ", " + error;
-			        console.log("Request Failed: " + err);
-			    }
-			});
+			
 		} else alert("Preencha todos os campos para cadastrar");
 	};
 </script>

@@ -77,19 +77,19 @@ function Cadastrar() {
 			
 			instituicao.usuario = { "id":location.search.split('id=')[1]};
 			console.log(instituicao);
-			/*AjaxPuro({
+			AjaxPuro({
 			    _type: "POST",
 			    _path: "instituicoes",
 			    _arguments: JSON.stringify(instituicao),
 			    _done: function (data) {
 			    	 alert(data);
-				     window.location.href = "home.html";
+				     window.location.href = "../home/home.html";
 			    },
 			    _error: function (request, textStatus, error) {
 			        var err = textStatus + ", " + error;
 			        console.log("Request Failed: " + err);
 			    }
-			});*/
+			});
 		} else alert("Preencha todos os campos para cadastrar");
 	};
 </script>
