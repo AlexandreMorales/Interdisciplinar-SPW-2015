@@ -111,5 +111,21 @@ public class AnuncioDao {
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
+	public static List<Anuncio> getPorAnimal(int id){
+		List<Anuncio> result = new ArrayList<>();		
+		try{			
+			session = HibernateUtil.getSessionFactory().openSession();				
+			session.beginTransaction();						
+			Query query = session.createQuery("from Anuncio where animal_id = :id");
+			query.setParameter("id", id);
+			result = query.list();			
+			session.getTransaction().commit();			
+		}catch(Exception e){
+			System.err.println(e.getMessage());
+		}
+		return result;
+	}
+	
 }
 

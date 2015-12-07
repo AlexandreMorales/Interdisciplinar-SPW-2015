@@ -35,8 +35,6 @@ function gerenciaLogin() {
 	} else {
 		show("li-logout", false);
 		show("li-animais", false);
-		show("li-instituicoes", false);
-		show("li-usuarios", false);
 		show("li-anuncios", false);
 	}
 }

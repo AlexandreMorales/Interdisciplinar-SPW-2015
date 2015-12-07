@@ -8,7 +8,7 @@
 			_arguments : window.location.search.substring(1),
 			_done : function(data) {
 				document.title = "Detalhes do " + data.tipo + " "
-						+ data.nomeAdotivo;
+				+ data.nomeAdotivo;	
 				getElement(".animalAtt").forEach(function(el) {
 					if (el.type === "checkbox")
 						el.checked = data[el.id];
@@ -23,7 +23,17 @@
 				console.log("Request Failed: " + err);
 			}
 		});
-		
+		AjaxPuro({
+			_path : "anuncios/animais",
+			_arguments : window.location.search.substring(1),
+			_done : function(data) {
+				show("divAdocao", data.length);
+			},
+			_error : function(request, textStatus, error) {
+				var err = textStatus + ", " + error;
+				console.log("Request Failed: " + err);
+			}
+		});	
 		getElement("#criarAnuncio").addEventListener("click", function(){
 			window.location.href = "../anuncios/create.html?id="+window.location.search.substring(1);
 			});
@@ -88,7 +98,7 @@
 		</div>
 	</div>
 	
-	<div class="form-horizontal">
+	<div class="form-horizontal" id="divAdocao">
 		<div class="form-group">
 			<div class="col-lg-3"></div>
 			<div class="col-lg-5">

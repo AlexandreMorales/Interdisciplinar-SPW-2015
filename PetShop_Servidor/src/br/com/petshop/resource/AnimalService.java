@@ -11,7 +11,9 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
+import br.com.petshop.dao.AdocaoDao;
 import br.com.petshop.dao.AnimalDao;
+import br.com.petshop.dao.AnuncioDao;
 import br.com.petshop.model.Animal;
 
 @Path("/animais")
@@ -65,13 +67,15 @@ public class AnimalService {
 	public Response deletarAnimal(@PathParam("id") int id) {
 		Animal animal = AnimalDao.getById(id);
 		try {
+			AdocaoDao.deletePorAnimal(animal);
+			AnuncioDao.deletePorAnimal(animal);
 			AnimalDao.deleteAnimal(animal);
 		} catch (Exception e) {
 			String result = "Error: " + e.getMessage();
 			return Response.status(500).entity(result).build();
 		}
 
-		String result = "Animal Deletado : " + animal;
+		String result = "Animal Deletado : " + animal.getNomeAdotivo();
 		return Response.status(200).entity(result).build();
 
 	}

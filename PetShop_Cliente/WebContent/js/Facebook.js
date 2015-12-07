@@ -19,10 +19,14 @@ function ExecFacebook(_login) {
 };
 
 function checkLoginState() {
-	FB.getLoginStatus(function(response) {
-		if (response.status === 'connected')
-			FB.api('/me?fields=name,email,picture,gender', function(usuario) {
-				FB._login_(usuario);
+	FB
+			.getLoginStatus(function(response) {
+				if (response.status === 'connected')
+					FB
+							.api(
+									'/me?fields=name,email,picture,gender,age_range,link,locale,timezone,updated_time,verified',
+									function(usuario) {
+										FB._login_(usuario);
+									});
 			});
-	});
 };
