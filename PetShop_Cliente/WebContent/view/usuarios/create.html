@@ -4,7 +4,20 @@
 <script src="/PetShop_Cliente/js/Layout.js"></script>
 <script>
 getLayout(function(){
-	ExecFacebook();
+	ExecFacebook(function(usuario){
+		AjaxPuro({
+			_type: "POST",
+			_path: "usuarios",
+			_arguments: JSON.stringify({email: usuario.email, senha: "pass@word1", perfilAcesso: 0}),
+			_done: function (data) {
+				setCookie("userImage", usuario.picture.data.url);
+				location.href = "pessoa.html?"+data+"&"+usuario.name+"&"+usuario.gender;
+			},
+			_error: function (request, textStatus, error) {
+				alert(error);
+			}
+		});
+	});
 	document.title = "Cadastrar novo Usuário";
 	getElement("#Enviar").addEventListener("click", Cadastrar);
 	getElement("#perfilAcesso").addEventListener("change", escondeLogFacebook);
@@ -16,10 +29,10 @@ getLayout(function(){
 	<div class="form-group">
 		<div class="col-lg-4"></div>
 		<div class="col-lg-4">
-		<h1>Cadastro de Usuario:</h1>
+			<h1>Cadastro de Usuario:</h1>
 		</div>
 	</div>
-	
+
 	<div class="form-group">
 		<label class="control-label col-lg-4" for="email"> Email: </label>
 		<div class="col-lg-4">
@@ -75,7 +88,7 @@ function Cadastrar() {
 			_path: "usuarios",
 			_arguments: JSON.stringify(usuario),
 			_done: function (data) {
-				window.location.href = ((usuario.perfilAcesso==0) ? "pessoa.html?id=" : "instituicao.html?id=")+data;
+				window.location.href = ((usuario.perfilAcesso==0) ? "pessoa.html?" : "instituicao.html?id=")+data;
 			},
 			_error: function (request, textStatus, error) {
 				alert(error);

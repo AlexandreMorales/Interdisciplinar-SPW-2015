@@ -4,17 +4,30 @@
 <script src="/PetShop_Cliente/js/Layout.js"></script>
 <script>
 getLayout(function(){
-	ExecFacebook();
+	ExecFacebook(function(usuario){
+		AjaxPuro({
+		    _type: "POST",
+		    _path: "usuarios/autenticar",
+		    _arguments: JSON.stringify({email: usuario.email, senha: "pass@word1" }),
+		    _done: function (data) {
+		    	setCookie("userCurrent",JSON.stringify(data));
+		    	window.location.href = "../Home/home.html";
+		    },
+		    _error: function (request, textStatus, error) {
+		        alert(error);
+		    }
+		});
+	});
 	document.title = "Login";
 	getElement("#Enviar").addEventListener("click", Logar);
 });
 </script>
 
 <div class="form-horizontal">
-<div class="form-group">
+	<div class="form-group">
 		<div class="col-lg-5"></div>
 		<div class="col-lg-6">
-		<h1>Login:</h1>
+			<h1>Login:</h1>
 		</div>
 	</div>
 	<div class="form-group">

@@ -43,6 +43,9 @@ function gerenciaLogin() {
 
 function logout() {
 	deleteCookie("userCurrent");
-	if(FB)
-		FB.logout(function(response) { });
+	if (FB)
+		FB.logout(function(response) {
+			FB.Auth.setAuthResponse(null, 'unknown');
+		});
+	alert("oi");
 }

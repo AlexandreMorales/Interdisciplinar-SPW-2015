@@ -2,48 +2,80 @@
 <script src="/PetShop_Cliente/js/login.js"></script>
 <script src="/PetShop_Cliente/js/Layout.js"></script>
 <script>
+var idUsuario;
 getLayout(function(){
+	var atts = location.search.substr(1).split('&').map(c => decodeURI(c));
+	idUsuario = atts[0];
+	if(atts[1] !== "undefined")
+		getElement("#nomeSocial").value = atts[1];
+	switch(atts[2]){
+		case "undefined": break;
+		case "female": getElement("#genero").value = 0; break;
+		case "male": getElement("#genero").value = 1; break;
+		default: getElement("#genero").value = 2; break;
+	}
+	if(getCookie("userImage") && atts[1] !== "undefined"){
+		getElement("#userImage").config({
+			src: getCookie("userImage"), alt: atts[1], syle: {    
+				display: "block;",
+		    	margin: "auto;"
+			}
+		});
+	}		
 	document.title = "Cadastrar nova Pessoa";
 	getElement("#Enviar").addEventListener("click", Cadastrar);
 });
 </script>
 <div class="form-horizontal">
 
-<div class="form-group">
+	<div class="form-group">
 		<div class="col-lg-4"></div>
 		<div class="col-lg-6">
-		<h1>Cadastro de Pessoa:</h1>
+			<h1>Cadastro de Pessoa:</h1>
 		</div>
 	</div>
-	
+
 	<div class="form-group">
-		<label class="control-label col-lg-4" for="nomeSocial"> Nome Social: </label>
+		<img id="userImage">
+	</div>
+
+	<div class="form-group">
+		<label class="control-label col-lg-4" for="nomeSocial"> Nome
+			Social: </label>
 		<div class="col-lg-4">
-			<input id="nomeSocial" type="text" class="form-control pessoaAtt requiredAtt" />
+			<input id="nomeSocial" type="text"
+				class="form-control pessoaAtt requiredAtt" />
 		</div>
 	</div>
 	<div class="form-group">
-		<label class="control-label col-lg-4" for="dataNascimento"> Data Nascimento: </label>
+		<label class="control-label col-lg-4" for="dataNascimento">
+			Data Nascimento: </label>
 		<div class="col-lg-4">
-			<input id="dataNascimento" type="date" class="form-control pessoaAtt requiredAtt" />
+			<input id="dataNascimento" type="date"
+				class="form-control pessoaAtt requiredAtt" />
 		</div>
 	</div>
 	<div class="form-group">
-		<label class="control-label col-lg-4" for="nomeParente1"> Nome Parente 1: </label>
+		<label class="control-label col-lg-4" for="nomeParente1"> Nome
+			Parente 1: </label>
 		<div class="col-lg-4">
-			<input id="nomeParente1" type="text" class="form-control pessoaAtt requiredAtt" />
+			<input id="nomeParente1" type="text"
+				class="form-control pessoaAtt requiredAtt" />
 		</div>
 	</div>
 	<div class="form-group">
-		<label class="control-label col-lg-4" for="nomeParente2"> Nome Parente 2: </label>
+		<label class="control-label col-lg-4" for="nomeParente2"> Nome
+			Parente 2: </label>
 		<div class="col-lg-4">
 			<input id="nomeParente2" type="text" class="form-control pessoaAtt" />
 		</div>
 	</div>
 	<div class="form-group">
-		<label class="control-label col-lg-4" for="telefone"> Telefone: </label>
+		<label class="control-label col-lg-4" for="telefone">
+			Telefone: </label>
 		<div class="col-lg-4">
-			<input id="telefone" type="text" class="form-control pessoaAtt requiredAtt" />
+			<input id="telefone" type="text"
+				class="form-control pessoaAtt requiredAtt" />
 		</div>
 	</div>
 
@@ -56,7 +88,7 @@ getLayout(function(){
 				<option value="2">Outro</option>
 			</select>
 		</div>
-	</div>	
+	</div>
 	<div class="form-group">
 		<label class="control-label col-lg-4" for="genero"> Etnia: </label>
 		<div class="col-lg-4">
@@ -68,25 +100,28 @@ getLayout(function(){
 				<option value="2">Outro</option>
 			</select>
 		</div>
-	</div>	
+	</div>
 	<div class="form-group">
-		<label class="control-label col-lg-4" for="nomeConjuge"> Nome Conjuge: </label>
+		<label class="control-label col-lg-4" for="nomeConjuge"> Nome
+			Conjuge: </label>
 		<div class="col-lg-4">
 			<input id="nomeConjuge" type="text" class="form-control pessoaAtt" />
 		</div>
 	</div>
 	<div class="form-group">
-		<label class="control-label col-lg-4" for="religiao"> Religiao: </label>
+		<label class="control-label col-lg-4" for="religiao">
+			Religiao: </label>
 		<div class="col-lg-4">
-			<input id="religiao" type="text" class="form-control pessoaAtt requiredAtt" />
+			<input id="religiao" type="text"
+				class="form-control pessoaAtt requiredAtt" />
 		</div>
 	</div>
 	<div class="form-group">
 		<label class="control-label col-lg-4" for="possuiDeficienciaFisica">
 			Possui Deficiencia Fisica: </label>
 		<div class="col-lg-4 checkbox">
-			<input id="possuiDeficienciaFisica" type="checkbox" class="animalAtt requiredAtt"
-				style="margin-left: 0px;" />
+			<input id="possuiDeficienciaFisica" type="checkbox"
+				class="animalAtt requiredAtt" style="margin-left: 0px;" />
 		</div>
 	</div>
 	<div class="form-group">
@@ -101,13 +136,12 @@ getLayout(function(){
 <script>
 function Cadastrar() {
 	if (!getElement(".pessoaAtt requiredAtt").some(d => d.value==="")) {
-		var pessoa = {};
+		var pessoa = {usuario: { "id":idUsuario}};
 		getElement(".pessoaAtt").forEach(function(el){
 			pessoa[el.id] = (el.type === "checkbox") ? el.checked : 
 				(el.type === "number" || el.tagName === "SELECT") ? parseFloat(el.value) : el.value;
 		});
-		pessoa.usuario = { "id":location.search.split('id=')[1]};
-		console.log(pessoa);
+
 		AjaxPuro({
 		    _type: "POST",
 		    _path: "pessoas",
